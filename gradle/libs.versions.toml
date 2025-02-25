@@ -55,6 +55,7 @@ edc-api-version = { module = "org.eclipse.edc:version-api", version.ref = "edc" 
 
 
 # EDC libs
+edc-lib-validator = { "module" = "org.eclipse.edc:validator-lib", version.ref = "edc" }
 edc-lib-common-crypto = { module = "org.eclipse.edc:crypto-common-lib", version.ref = "edc" }
 edc-lib-http = { "module" = "org.eclipse.edc:http-lib", version.ref = "edc" }
 edc-lib-jerseyproviders = { module = "org.eclipse.edc:jersey-providers-lib", version.ref = "edc" }

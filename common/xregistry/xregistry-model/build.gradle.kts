@@ -14,24 +14,10 @@
 
 plugins {
     `java-library`
-    id("application")
-    alias(libs.plugins.shadow)
+    `maven-publish`
 }
 
 dependencies {
-    runtimeOnly(libs.bundles.base.runtime)
-}
 
-application {
-    mainClass.set("org.eclipse.edc.boot.system.runtime.BaseRuntime")
-}
-
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    exclude("**/pom.properties", "**/pom.xm")
-    mergeServiceFiles()
-    archiveFileName.set("xregistry.jar")
-}
-
-edcBuild {
-    publish.set(false)
+    testImplementation(libs.edc.junit)
 }

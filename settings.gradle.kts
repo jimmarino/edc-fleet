@@ -13,7 +13,6 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-
     repositories {
         maven {
             url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
@@ -22,4 +21,9 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 }
-include(":xregistry:launcher")
+
+include(":common:xregistry:xregistry-model")
+include(":common:xregistry:xregistry-lib")
+include(":common:xregistry:xregistry-policy")
+include(":common:xregistry:xregistry-schema")
+include(":registry:launcher")
