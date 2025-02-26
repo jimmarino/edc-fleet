@@ -91,7 +91,7 @@ class RegistryPolicyDefinitionsTest {
                   "description": "Corporate policies",
                   "policies": {
                     "Corporate.Headquarters.EU": {
-                        "policyid":"test-policy"
+                        "policyid":"Corporate.Headquarters.EU"
                     }
                   }
                 }

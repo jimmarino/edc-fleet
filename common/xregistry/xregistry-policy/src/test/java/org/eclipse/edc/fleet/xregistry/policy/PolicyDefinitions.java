@@ -30,7 +30,7 @@ public interface PolicyDefinitions {
                   "description": "Corporate policies",
                   "policies": {
                     "Corporate.Headquarters.EU": {
-                      "policyid": "policy123",
+                      "policyid": "Corporate.Headquarters.EU",
                       "description:": "AssertscorporateheadquarterlocationisintheEU",
                       "policydefinition": "{\\"@context\\":{\\"edc\\":\\"https://w3id.org/edc/v0.0.1/ns/\\"},\\"@type\\":\\"PolicyDefinition\\",\\"policy\\":{\\"@context\\":\\"http://www.w3.org/ns/odrl.jsonld\\",\\"@id\\":\\"8c2ff88a-74bf-41dd-9b35-9587a3b95adf\\",\\"duty\\":[{\\"target\\":\\"http://example.com/asset:12345\\",\\"action\\":\\"use\\",\\"constraint\\":{\\"leftOperand\\":\\"headquarter_location\\",\\"operator\\":\\"eq\\",\\"rightOperand\\":\\"EU\\"}}]}\\n}"
                     }
