@@ -19,7 +19,6 @@ import org.eclipse.edc.fleet.xregistry.model.GroupDefinition;
 import org.eclipse.edc.fleet.xregistry.model.ResourceDefinition;
 import org.eclipse.edc.fleet.xregistry.model.ValueType;
 
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.BOOLEAN;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
 
 /**
@@ -40,7 +39,6 @@ public class RegistrySchemaDefinitions {
                 .singular("schema")
                 .plural("schemas")
                 .attribute(createDefinition("format", STRING))
-                .metaAttribute(createDefinition("validation", BOOLEAN))
                 .build();
     }
 

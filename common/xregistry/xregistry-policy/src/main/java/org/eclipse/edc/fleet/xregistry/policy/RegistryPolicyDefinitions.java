@@ -18,6 +18,7 @@ import org.eclipse.edc.fleet.xregistry.model.AttributeDefinition;
 import org.eclipse.edc.fleet.xregistry.model.GroupDefinition;
 import org.eclipse.edc.fleet.xregistry.model.ResourceDefinition;
 import org.eclipse.edc.fleet.xregistry.model.ValueType;
+import org.eclipse.edc.fleet.xregistry.model.VersionDefinition;
 
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.BOOLEAN;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
@@ -37,19 +38,23 @@ public class RegistryPolicyDefinitions {
     }
 
     public static ResourceDefinition createPolicyResourceDefinition() {
-        return ResourceDefinition.Builder.newInstance()
-                .singular("policy")
-                .plural("policies")
-                .metaAttribute(createDefinition("description", STRING))
-                .metaAttribute(createDefinition("schemauri", XID))
-                .metaAttribute(createDefinition("controlpolicy", BOOLEAN))
-                .metaAttribute(createDefinition("accesspolicy", BOOLEAN))
-                .metaAttribute(AttributeDefinition.Builder.newInstance()
+        var versionDefinition = VersionDefinition.Builder.newInstance()
+                .resourceName("policy")
+                .attribute(createDefinition("description", STRING))
+                .attribute(createDefinition("controlpolicy", BOOLEAN))
+                .attribute(createDefinition("accesspolicy", BOOLEAN))
+                .attribute(AttributeDefinition.Builder.newInstance()
                         .name("policydefinition")
                         .serverRequired(true)
                         .clientRequired(true)
                         .type(STRING)
                         .build())
+                .build();
+        return ResourceDefinition.Builder.newInstance()
+                .singular("policy")
+                .plural("policies")
+                .attribute(createDefinition("schemauri", XID))
+                .versionDefinition(versionDefinition)
                 .build();
     }
 

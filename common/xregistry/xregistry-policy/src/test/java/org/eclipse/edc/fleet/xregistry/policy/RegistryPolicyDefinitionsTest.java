@@ -75,7 +75,6 @@ class RegistryPolicyDefinitionsTest {
         validator = new RegistryValidator(groupValidator, attributeValidator);
     }
 
-
     private static String POLICY_RESOURCE_MISSING_PROPERTY = """
             {
               "specversion": "0.5",
@@ -104,9 +103,20 @@ class RegistryPolicyDefinitionsTest {
                         "xid": "/policygroups/corporate.policies/policies/corporate.headquarters.eu",
                         "metaurl": "#/policygroups/corporate.policies/policies/corporate.headquarters.eu/meta",
                         "versionsurl": "#/policygroups/corporate.policies/policies/corporate.headquarters.eu/url",
-                        "versionscount": 0,
-                        "policyid":"Corporate.Headquarters.EU"
-                    }
+                        "versionscount": 1,
+                        "versions": {
+                          "1.0": {
+                            "policyid": "Corporate.Headquarters.EU",
+                            "versionid": "1.0",
+                            "self": "#/policygroups/corporate.policies/policies/corporate.headquarters.eu/versions/1.0",
+                            "xid": "/policygroups/corporate.policies/policies/corporate.headquarters.eu/versions/1.0",
+                            "epoch": 1,
+                            "isdefault": true,
+                            "createdat": "2024-12-19T06:00:00Z",
+                            "modifiedat": "2024-12-19T06:00:00Z"
+                          }
+                        }
+                      }
                   }
                 }
               }

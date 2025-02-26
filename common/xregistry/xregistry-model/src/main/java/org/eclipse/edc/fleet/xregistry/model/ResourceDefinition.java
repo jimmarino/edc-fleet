@@ -14,9 +14,6 @@
 
 package org.eclipse.edc.fleet.xregistry.model;
 
-import java.util.HashSet;
-
-import static java.util.stream.Collectors.joining;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.UINTEGER;
@@ -35,7 +32,9 @@ public class ResourceDefinition extends AbstractTypeDefinition {
 
     @Override
     protected void setContext(String context) {
-        super.setContext(context + "." + getSingular());
+        var resourceContext = context + "." + getSingular();
+        super.setContext(resourceContext);
+        versionDefinition.setContext(resourceContext);
     }
 
     private ResourceDefinition() {
@@ -45,6 +44,11 @@ public class ResourceDefinition extends AbstractTypeDefinition {
 
         public static Builder newInstance() {
             return new Builder();
+        }
+
+        public Builder versionDefinition(VersionDefinition versionDefinition) {
+            this.definition.versionDefinition = versionDefinition;
+            return this;
         }
 
         public ResourceDefinition build() {
@@ -57,31 +61,14 @@ public class ResourceDefinition extends AbstractTypeDefinition {
             addRequiredAttribute("versionscount", UINTEGER);
 
             addOptionalAttribute("meta", MAP);
-//            addOptionalAttribute("maxversions", UINTEGER);
-//            addOptionalAttribute("setversionid", BOOLEAN);
-//            addOptionalAttribute("setdefaultversionsticky", BOOLEAN);
-//            addOptionalAttribute("hasdocument", BOOLEAN);
-//            addOptionalAttribute("typemap", MAP);
-//            addOptionalAttribute("metaattributes", MAP);
-//            addOptionalAttribute("labels", MAP);
 
-            var intersection = new HashSet<>(definition.attributes.values());
-            intersection.retainAll(definition.metaAttributes.values());
-            if (!intersection.isEmpty()) {
-                throw new IllegalArgumentException("Duplicate attribute definitions found: " + intersection.stream()
-                        .map(AttributeDefinition::getName)
-                        .collect(joining(",")));
+            if (definition.versionDefinition == null) {
+                result.versionDefinition = VersionDefinition.Builder.newInstance()
+                        .resourceName(definition.singular)
+                        .build();
             }
 
-            result.versionDefinition = VersionDefinition.Builder.newInstance()
-                    .resourceName(definition.singular)
-                    .build();
             return result;
-        }
-
-        public Builder metaAttribute(AttributeDefinition attributeDefinition) {
-            definition.metaAttributes.put(attributeDefinition.getName(), attributeDefinition);
-            return this;
         }
 
         private Builder() {

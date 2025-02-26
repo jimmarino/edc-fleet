@@ -14,7 +14,6 @@
 
 package org.eclipse.edc.fleet.xregistry.model;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,7 +30,6 @@ public abstract class AbstractTypeDefinition {
     protected String context;
 
     protected Map<String, AttributeDefinition> attributes = new LinkedHashMap<>();
-    protected Map<String, AttributeDefinition> metaAttributes = new HashMap<>();
 
     public String getSingular() {
         return singular;
@@ -47,10 +45,6 @@ public abstract class AbstractTypeDefinition {
 
     public Map<String, AttributeDefinition> getAttributes() {
         return attributes;
-    }
-
-    public Map<String, AttributeDefinition> getMetaAttributes() {
-        return metaAttributes;
     }
 
     protected void setContext(String context) {
@@ -125,7 +119,5 @@ public abstract class AbstractTypeDefinition {
                     .type(componentType)
                     .build();
         }
-
-
     }
 }

@@ -16,19 +16,10 @@ package org.eclipse.edc.fleet.xregistry.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 class ResourceDefinitionTest {
 
     @Test
-    void verifyAttributeOverlap() {
-        var attributeDefinition = AttributeDefinition.Builder.newInstance().name("foo").build();
-        assertThatThrownBy(() -> ResourceDefinition.Builder.newInstance()
-                .singular("bar")
-                .plural("bars")
-                .attribute(attributeDefinition)
-                .metaAttribute(attributeDefinition)
-                .build())
-                .isInstanceOf(IllegalArgumentException.class);
+    void verify_build() {
+        AttributeDefinition.Builder.newInstance().name("foo").build();
     }
 }

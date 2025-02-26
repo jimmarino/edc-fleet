@@ -57,7 +57,7 @@ public class VersionDefinition extends AbstractTypeDefinition {
 
             var result = super.build();
             addRequiredAttribute(definition.resourceName + "id", STRING);
-            addRequiredAttribute(definition.singular + "id", BOOLEAN);
+            addRequiredAttribute(definition.singular + "id", STRING);
             addRequiredAttribute("isdefault", BOOLEAN);
             addRequiredAttribute("self", STRING);
             addRequiredAttribute("xid", XID);
@@ -66,12 +66,8 @@ public class VersionDefinition extends AbstractTypeDefinition {
             addRequiredAttribute("modifiedat", TIMESTAMP);
 
             addOptionalAttribute("name", STRING);
-            return result;
-        }
 
-        public Builder metaAttribute(AttributeDefinition attributeDefinition) {
-            definition.metaAttributes.put(attributeDefinition.getName(), attributeDefinition);
-            return this;
+            return result;
         }
 
         private Builder() {

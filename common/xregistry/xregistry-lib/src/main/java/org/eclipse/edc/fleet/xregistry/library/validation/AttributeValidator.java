@@ -40,12 +40,9 @@ public class AttributeValidator implements RegistryTypeValidator<AbstractTypeDef
     @Override
     public ValidationResult validate(Map<String, Object> entry, AbstractTypeDefinition typeDefinition) {
         var context = calculateContext(entry, typeDefinition);
-        var result = typeDefinition.getMetaAttributes().values().stream()
-                .map(attributeDefinition -> validateAttribute(entry, attributeDefinition, context))
-                .reduce(success(), ValidationResult::coalesce);
         return typeDefinition.getAttributes().values().stream()
                 .map(attributeDefinition -> validateAttribute(entry, attributeDefinition, context))
-                .reduce(result, ValidationResult::coalesce);
+                .reduce(success(), ValidationResult::coalesce);
     }
 
     private ValidationResult validateAttribute(Map<String, Object> entry,

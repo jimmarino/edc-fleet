@@ -51,6 +51,7 @@ public class GroupDefinition extends AbstractTypeDefinition {
     }
 
     public static class Builder extends AbstractTypeDefinition.Builder<GroupDefinition, Builder> {
+
         public static Builder newInstance() {
             return new Builder();
         }

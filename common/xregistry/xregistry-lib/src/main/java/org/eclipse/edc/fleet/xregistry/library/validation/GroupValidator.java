@@ -16,6 +16,7 @@ package org.eclipse.edc.fleet.xregistry.library.validation;
 
 import org.eclipse.edc.fleet.xregistry.model.AbstractTypeDefinition;
 import org.eclipse.edc.fleet.xregistry.model.GroupDefinition;
+import org.eclipse.edc.fleet.xregistry.model.ResourceDefinition;
 
 import java.util.Map;
 import java.util.Set;
@@ -50,38 +51,61 @@ public class GroupValidator implements RegistryTypeValidator<GroupDefinition> {
                     return success();
                 }
                 if (!(resources instanceof Map resourceMap)) {
-                    var context = format("%s[%s].%s", groupDefinition.getContext(), groupEntry.getKey(), resourceDefinition.getPlural());
+                    var context = format("%s[%s].%s",
+                            groupDefinition.getContext(),
+                            groupEntry.getKey(),
+                            resourceDefinition.getPlural());
                     return invalidType(context);
                 }
                 Set<Map.Entry> resourceSet = resourceMap.entrySet();
-                return resourceSet.stream().map(resourceEntry -> {
-                    if (!(resourceEntry.getValue() instanceof Map resourceEntryMap)) {
-                        var context = format("%s.%s[%s]", groupDefinition.getContext(), resourceDefinition.getPlural(), resourceEntry.getKey());
-                        return invalidType(context);
-                    }
-                    // validate the resource
-                    var resourceResult = attributeValidator.validate(resourceEntryMap, resourceDefinition);
-
-                    // validate resource versions
-                    var versions = resourceEntryMap.get("versions");
-                    if (versions == null) {
-                        return resourceResult;
-                    }
-                    if (!(versions instanceof Map versionMap)) {
-                        var context = format("%s[%s].%s[%s].versions", groupDefinition.getContext(), groupEntry.getKey(), resourceDefinition.getPlural(), resourceEntry.getKey());
-                        return invalidType(context);
-                    }
-                    Set<Map.Entry> versionSet = versionMap.entrySet();
-                    return versionSet.stream().map(versionEntry -> {
-                        if (!(versionEntry.getValue() instanceof Map versionEntryMap)) {
-                            var context = format("%s.%s[%s].[%s]", groupDefinition.getContext(),  resourceDefinition.getPlural(), resourceEntry.getKey(), versionEntry.getKey());
-                            return invalidType(context);
-                        }
-                        return attributeValidator.validate(versionEntryMap, resourceDefinition.getVersionDefinition());
-                    }).reduce(resourceResult, ValidationResult::coalesce);
-                }).reduce(success(), ValidationResult::coalesce);
+                return resourceSet.stream()
+                        .map(resourceEntry -> validateResource(
+                                resourceEntry,
+                                groupDefinition.getContext(),
+                                groupEntry.getKey(),
+                                resourceDefinition))
+                        .reduce(success(), ValidationResult::coalesce);
             }).reduce(result, ValidationResult::coalesce);
         }).reduce(success(), ValidationResult::coalesce);
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private ValidationResult validateResource(Map.Entry<String, Object> resourceEntry,
+                                              String rootContext,
+                                              String groupKey,
+                                              ResourceDefinition resourceDefinition) {
+        if (!(resourceEntry.getValue() instanceof Map resourceEntryMap)) {
+            var context = format("%s.%s[%s]", rootContext, resourceDefinition.getPlural(), resourceEntry.getKey());
+            return invalidType(context);
+        }
+        // validate the resource
+        var resourceResult = attributeValidator.validate(resourceEntryMap, resourceDefinition);
+
+        // validate resource versions
+        var versions = resourceEntryMap.get("versions");
+        if (versions == null) {
+            return resourceResult;
+        }
+        if (!(versions instanceof Map versionMap)) {
+            var context = format("%s[%s].%s[%s].versions",
+                    rootContext,
+                    groupKey,
+                    resourceDefinition.getPlural(),
+                    resourceEntry.getKey());
+            return invalidType(context);
+        }
+        Set<Map.Entry<String, Object>> versionSet = versionMap.entrySet();
+        return versionSet.stream().map(versionEntry -> {
+            if (!(versionEntry.getValue() instanceof Map versionEntryMap)) {
+                var context = format("%s.%s[%s].[%s]",
+                        rootContext,
+                        resourceDefinition.getPlural(),
+                        resourceEntry.getKey(),
+                        versionEntry.getKey());
+                return invalidType(context);
+            }
+            return attributeValidator.validate(versionEntryMap, resourceDefinition.getVersionDefinition());
+        }).reduce(resourceResult, ValidationResult::coalesce);
     }
 
 }
