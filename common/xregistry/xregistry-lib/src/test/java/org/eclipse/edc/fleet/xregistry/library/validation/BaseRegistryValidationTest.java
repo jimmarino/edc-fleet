@@ -76,6 +76,24 @@ public class BaseRegistryValidationTest {
 
     @Test
     @SuppressWarnings("unchecked")
+    void verify_missingGroupId_fails() throws JsonProcessingException {
+        var data = mapper.readValue(MISSING_GROUP_ID_REGISTRY, Map.class);
+        var groupDefinition = GroupDefinition.Builder.newInstance()
+                .singular("foo")
+                .plural("foo")
+                .build();
+        var registryDefinition = RegistryDefinition.Builder.newInstance()
+                .group(groupDefinition)
+                .build();
+        var result = registryValidator.validate(data, registryDefinition);
+
+        assertThat(result.valid()).isFalse();
+        assertThat(result.violations().size()).isEqualTo(1);
+        assertThat(result.violations()).allMatch(v -> v.contains("foogroupid"));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
     void verify_invalidTypes_fails() throws JsonProcessingException {
         var data = mapper.readValue(INVALID_TYPES_REGISTRY, Map.class);
         var groupDefinition = GroupDefinition.Builder.newInstance()
@@ -122,6 +140,25 @@ public class BaseRegistryValidationTest {
               "modifiedat": "2024-12-19T06:00:00Z",
               "foogroups": {
                 "Fabrikam.Type1": {
+                  "foogroupid": "Fabrikam.Type1",
+                  "entries": {
+                  }
+                }
+              }
+            }""";
+
+    private static final String MISSING_GROUP_ID_REGISTRY = """
+            {
+              "specversion": "0.5",
+              "registryid": "sample",
+              "self": "https://localhost:8080/xregistry",
+              "xid": "/xregistry",
+              "url": "https://localhost:8080/xregistry",
+              "epoch": 1,
+              "createdat": "2024-12-19T06:00:00Z",
+              "modifiedat": "2024-12-19T06:00:00Z",
+              "foogroups": {
+                "Fabrikam.Type1": {
                   "entries": {
                   }
                 }
@@ -140,6 +177,7 @@ public class BaseRegistryValidationTest {
               "modifiedat":1,
               "foogroups": {
                 "Fabrikam.Type1": {
+                  "foogroupid": "Fabrikam.Type1",
                   "entries": {
                   }
                 }
@@ -150,6 +188,7 @@ public class BaseRegistryValidationTest {
             {
               "foogroups": {
                 "Fabrikam.Type1": {
+                  "foogroupid": "Fabrikam.Type1",
                   "entries": {
                   }
                 }

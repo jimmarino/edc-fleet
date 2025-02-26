@@ -57,6 +57,12 @@ public class GroupDefinition extends AbstractTypeDefinition {
 
         public GroupDefinition build() {
             var result = super.build();
+            var attributeDefinition = AttributeDefinition.Builder.newInstance()
+                    .clientRequired(true)
+                    .serverRequired(true)
+                    .name(definition.singular + "groupid").build();
+            attribute(attributeDefinition);
+
             addOptionalAttribute("labels", MAP);
             return result;
         }

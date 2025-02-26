@@ -27,6 +27,7 @@ public interface PolicyDefinitions {
               "modifiedat": "2024-12-19T06:00:00Z",
               "policygroups": {
                 "Corporate.Policies": {
+                  "policygroupid": "Corporate.Policies",
                   "description": "Corporate policies",
                   "policies": {
                     "Corporate.Headquarters.EU": {

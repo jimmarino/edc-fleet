@@ -38,12 +38,12 @@ public class GroupValidator implements RegistryTypeValidator<GroupDefinition> {
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public ValidationResult validate(Map<String, Object> groupContainer, GroupDefinition groupDefinition) {
-        var result = attributeValidator.validate(groupContainer, groupDefinition);
         return groupContainer.entrySet().stream().map(groupEntry -> {
             if (!(groupEntry.getValue() instanceof Map groupMap)) {
                 // groups must be a map
                 return invalidType(format("%s[%s]", groupDefinition.getContext(), groupEntry.getKey()));
             }
+            var result = attributeValidator.validate(groupMap, groupDefinition);
             return groupDefinition.getResources().values().stream().map(resourceDefinition -> {
                 var resources = groupMap.get(resourceDefinition.getPlural());
                 if (resources == null) {
@@ -61,7 +61,7 @@ public class GroupValidator implements RegistryTypeValidator<GroupDefinition> {
                     }
                     return attributeValidator.validate(resourceEntryMap, resourceDefinition);
                 }).reduce(success(), ValidationResult::coalesce);
-            }).reduce(success(), ValidationResult::coalesce);
-        }).reduce(result, ValidationResult::coalesce);
+            }).reduce(result, ValidationResult::coalesce);
+        }).reduce(success(), ValidationResult::coalesce);
     }
 }
