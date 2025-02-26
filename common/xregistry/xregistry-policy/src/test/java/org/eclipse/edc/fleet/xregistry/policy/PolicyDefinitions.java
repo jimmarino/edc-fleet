@@ -29,9 +29,21 @@ public interface PolicyDefinitions {
                 "Corporate.Policies": {
                   "policygroupid": "Corporate.Policies",
                   "description": "Corporate policies",
+                  "self": "#/policygroups/corporate.policies",
+                  "xid": "/policygroups/corporate.policies",
+                  "epoch": 1,
+                  "createdat": "2024-12-19T06:00:00Z",
+                  "modifiedat": "2024-12-19T06:00:00Z",
+                  "policiesurl": "#/policygroups/corporate.policies/policies",
+                  "policiescount": 0,
                   "policies": {
                     "Corporate.Headquarters.EU": {
                       "policyid": "Corporate.Headquarters.EU",
+                      "self": "#/policygroups/corporate.policies/policies/corporate.headquarters.eu",
+                      "xid": "/policygroups/corporate.policies/policies/corporate.headquarters.eu",
+                      "metaurl": "#/policygroups/corporate.policies/policies/corporate.headquarters.eu/meta",
+                      "versionsurl": "#/policygroups/corporate.policies/policies/corporate.headquarters.eu/url",
+                      "versionscount": 0,
                       "description:": "AssertscorporateheadquarterlocationisintheEU",
                       "policydefinition": "{\\"@context\\":{\\"edc\\":\\"https://w3id.org/edc/v0.0.1/ns/\\"},\\"@type\\":\\"PolicyDefinition\\",\\"policy\\":{\\"@context\\":\\"http://www.w3.org/ns/odrl.jsonld\\",\\"@id\\":\\"8c2ff88a-74bf-41dd-9b35-9587a3b95adf\\",\\"duty\\":[{\\"target\\":\\"http://example.com/asset:12345\\",\\"action\\":\\"use\\",\\"constraint\\":{\\"leftOperand\\":\\"headquarter_location\\",\\"operator\\":\\"eq\\",\\"rightOperand\\":\\"EU\\"}}]}\\n}"
                     }

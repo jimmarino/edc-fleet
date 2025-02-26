@@ -25,7 +25,7 @@ import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
 /**
  * Creates XRegistry definitions for schema artifacts.
  */
-public class SchemaPolicyDefinitions {
+public class RegistrySchemaDefinitions {
 
     public static GroupDefinition createPolicyGroupDefinition() {
         return GroupDefinition.Builder.newInstance()

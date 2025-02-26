@@ -108,7 +108,5 @@ public class RegistryDefinition extends AbstractTypeDefinition {
                     .build();
             definition.attributes.put("model", model);
         }
-
-
     }
 }

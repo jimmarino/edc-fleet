@@ -90,8 +90,21 @@ class RegistryPolicyDefinitionsTest {
                 "Corporate.Policies": {
                   "policygroupid": "Corporate.Policies",
                   "description": "Corporate policies",
+                  "self": "#/policygroups/corporate.policies",
+                  "xid": "/policygroups/corporate.policies",
+                  "epoch": 1,
+                  "createdat": "2024-12-19T06:00:00Z",
+                  "modifiedat": "2024-12-19T06:00:00Z",
+                  "policiesurl": "#/policygroups/corporate.policies/policies",
+                  "policiescount": 0,
                   "policies": {
                     "Corporate.Headquarters.EU": {
+                        "policyid": "Corporate.Headquarters.EU",
+                        "self": "#/policygroups/corporate.policies/policies/corporate.headquarters.eu",
+                        "xid": "/policygroups/corporate.policies/policies/corporate.headquarters.eu",
+                        "metaurl": "#/policygroups/corporate.policies/policies/corporate.headquarters.eu/meta",
+                        "versionsurl": "#/policygroups/corporate.policies/policies/corporate.headquarters.eu/url",
+                        "versionscount": 0,
                         "policyid":"Corporate.Headquarters.EU"
                     }
                   }

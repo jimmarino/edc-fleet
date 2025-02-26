@@ -27,7 +27,8 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BaseRegistryValidationTest {
-    private static final Set<String> MANDATORY = Set.of("registryid", "specversion", "self", "xid", "url", "epoch", "createdat", "modifiedat");
+    private static final Set<String> MANDATORY_REGISTRY = Set.of("registryid", "specversion", "self", "xid", "url", "epoch", "createdat", "modifiedat");
+    private static final Set<String> MANDATORY_GROUP = Set.of("foogroupid", "self", "xid", "foosurl", "fooscount", "epoch", "createdat", "modifiedat");
     private ObjectMapper mapper;
     private RegistryValidator registryValidator;
 
@@ -37,7 +38,7 @@ public class BaseRegistryValidationTest {
         var data = mapper.readValue(VALID_REGISTRY, Map.class);
         var groupDefinition = GroupDefinition.Builder.newInstance()
                 .singular("foo")
-                .plural("foo")
+                .plural("foos")
                 .build();
         var registryDefinition = RegistryDefinition.Builder.newInstance()
                 .group(groupDefinition)
@@ -49,11 +50,11 @@ public class BaseRegistryValidationTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    void verify_missingMandatory_fails() throws JsonProcessingException {
-        var data = mapper.readValue(MISSING_MANDATORY_REGISTRY, Map.class);
+    void verify_missingMandatoryRegistryAttributes_fails() throws JsonProcessingException {
+        var data = mapper.readValue(MISSING_MANDATORY_REGISTRY_ATTRIBUTES, Map.class);
         var groupDefinition = GroupDefinition.Builder.newInstance()
                 .singular("foo")
-                .plural("foo")
+                .plural("foos")
                 .build();
         var registryDefinition = RegistryDefinition.Builder.newInstance()
                 .group(groupDefinition)
@@ -61,26 +62,17 @@ public class BaseRegistryValidationTest {
         var result = registryValidator.validate(data, registryDefinition);
 
         assertThat(result.valid()).isFalse();
-        assertThat(result.violations().size()).isEqualTo(MANDATORY.size());
-        assertThat(result.violations()).allMatch(v -> {
-            boolean found = false;
-            for (var key : MANDATORY) {
-                if (v.contains(key)) {
-                    found = true;
-                    break;
-                }
-            }
-            return found;
-        });
+        assertThat(result.violations().size()).isEqualTo(MANDATORY_REGISTRY.size());
+        assertThat(result.violations()).allMatch(v -> assertMatch(v,MANDATORY_REGISTRY));
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    void verify_missingGroupId_fails() throws JsonProcessingException {
-        var data = mapper.readValue(MISSING_GROUP_ID_REGISTRY, Map.class);
+    void verify_missingGroupAttributes_fails() throws JsonProcessingException {
+        var data = mapper.readValue(MISSING_MANDATORY_GROUP_ATTRIBUTES, Map.class);
         var groupDefinition = GroupDefinition.Builder.newInstance()
                 .singular("foo")
-                .plural("foo")
+                .plural("foos")
                 .build();
         var registryDefinition = RegistryDefinition.Builder.newInstance()
                 .group(groupDefinition)
@@ -88,8 +80,8 @@ public class BaseRegistryValidationTest {
         var result = registryValidator.validate(data, registryDefinition);
 
         assertThat(result.valid()).isFalse();
-        assertThat(result.violations().size()).isEqualTo(1);
-        assertThat(result.violations()).allMatch(v -> v.contains("foogroupid"));
+        assertThat(result.violations().size()).isEqualTo(MANDATORY_GROUP.size());
+        assertThat(result.violations()).allMatch(v -> assertMatch(v,MANDATORY_GROUP));
     }
 
     @Test
@@ -98,7 +90,7 @@ public class BaseRegistryValidationTest {
         var data = mapper.readValue(INVALID_TYPES_REGISTRY, Map.class);
         var groupDefinition = GroupDefinition.Builder.newInstance()
                 .singular("foo")
-                .plural("foo")
+                .plural("foos")
                 .build();
         var registryDefinition = RegistryDefinition.Builder.newInstance()
                 .group(groupDefinition)
@@ -106,17 +98,8 @@ public class BaseRegistryValidationTest {
         var result = registryValidator.validate(data, registryDefinition);
 
         assertThat(result.valid()).isFalse();
-        assertThat(result.violations().size()).isEqualTo(MANDATORY.size());
-        assertThat(result.violations()).allMatch(v -> {
-            boolean found = false;
-            for (var key : MANDATORY) {
-                if (v.contains(key)) {
-                    found = true;
-                    break;
-                }
-            }
-            return found;
-        });
+        assertThat(result.violations().size()).isEqualTo(MANDATORY_REGISTRY.size());
+        assertThat(result.violations()).allMatch(v -> assertMatch(v, MANDATORY_REGISTRY));
     }
 
     @BeforeEach
@@ -126,6 +109,17 @@ public class BaseRegistryValidationTest {
         registryValidator = new RegistryValidator(groupValidator, attributeValidator);
 
         mapper = new ObjectMapper();
+    }
+
+    private boolean assertMatch(String v, Set<String> set) {
+        boolean found = false;
+        for (var key : set) {
+            if (v.contains(key)) {
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 
     private static final String VALID_REGISTRY = """
@@ -141,13 +135,20 @@ public class BaseRegistryValidationTest {
               "foogroups": {
                 "Fabrikam.Type1": {
                   "foogroupid": "Fabrikam.Type1",
+                  "self": "#/foogroups/fabrikam.type1",
+                  "xid": "/foogroups/fabrikam.type1",
+                  "epoch": 1,
+                  "createdat": "2024-12-19T06:00:00Z",
+                  "modifiedat": "2024-12-19T06:00:00Z",
+                  "foosurl": "#/foogroups/fabrikam.type1/entries",
+                  "fooscount": 0,
                   "entries": {
                   }
                 }
               }
             }""";
 
-    private static final String MISSING_GROUP_ID_REGISTRY = """
+    private static final String MISSING_MANDATORY_GROUP_ATTRIBUTES = """
             {
               "specversion": "0.5",
               "registryid": "sample",
@@ -174,24 +175,8 @@ public class BaseRegistryValidationTest {
               "url": 1,
               "epoch": "epoch",
               "createdat": 1,
-              "modifiedat":1,
-              "foogroups": {
-                "Fabrikam.Type1": {
-                  "foogroupid": "Fabrikam.Type1",
-                  "entries": {
-                  }
-                }
-              }
+              "modifiedat":1
             }""";
 
-    private static final String MISSING_MANDATORY_REGISTRY = """
-            {
-              "foogroups": {
-                "Fabrikam.Type1": {
-                  "foogroupid": "Fabrikam.Type1",
-                  "entries": {
-                  }
-                }
-              }
-            }""";
+    private static final String MISSING_MANDATORY_REGISTRY_ATTRIBUTES = "{}";
 }

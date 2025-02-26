@@ -18,6 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
+import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
+import static org.eclipse.edc.fleet.xregistry.model.ValueType.TIMESTAMP;
+import static org.eclipse.edc.fleet.xregistry.model.ValueType.UINTEGER;
+import static org.eclipse.edc.fleet.xregistry.model.ValueType.URL;
+import static org.eclipse.edc.fleet.xregistry.model.ValueType.XID;
 
 /**
  * Defines an XRegistry group.
@@ -57,12 +62,18 @@ public class GroupDefinition extends AbstractTypeDefinition {
 
         public GroupDefinition build() {
             var result = super.build();
-            var attributeDefinition = AttributeDefinition.Builder.newInstance()
-                    .clientRequired(true)
-                    .serverRequired(true)
-                    .name(definition.singular + "groupid").build();
-            attribute(attributeDefinition);
+            addRequiredAttribute(definition.singular + "groupid", STRING);
+            addRequiredAttribute("self", URL);
+            addRequiredAttribute("xid", XID);
+            addRequiredAttribute("epoch", UINTEGER);
+            addRequiredAttribute("createdat", TIMESTAMP);
+            addRequiredAttribute("modifiedat", TIMESTAMP);
+            addRequiredAttribute(definition.plural+ "url", URL);
+            addRequiredAttribute(definition.plural+ "count", UINTEGER);
 
+            addOptionalAttribute("shortself", URL);
+            addOptionalAttribute("name", STRING);
+            addOptionalAttribute("description", STRING);
             addOptionalAttribute("labels", MAP);
             return result;
         }

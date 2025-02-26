@@ -17,14 +17,21 @@ package org.eclipse.edc.fleet.xregistry.model;
 import java.util.HashSet;
 
 import static java.util.stream.Collectors.joining;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.BOOLEAN;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
+import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.UINTEGER;
+import static org.eclipse.edc.fleet.xregistry.model.ValueType.URL;
+import static org.eclipse.edc.fleet.xregistry.model.ValueType.XID;
 
 /**
  * Defines an XRegistry resource.
  */
 public class ResourceDefinition extends AbstractTypeDefinition {
+    private VersionDefinition versionDefinition;
+
+    public VersionDefinition getVersionDefinition() {
+        return versionDefinition;
+    }
 
     @Override
     protected void setContext(String context) {
@@ -42,20 +49,21 @@ public class ResourceDefinition extends AbstractTypeDefinition {
 
         public ResourceDefinition build() {
             var result = super.build();
+            addRequiredAttribute(definition.singular + "id", STRING);
+            addRequiredAttribute("self", URL);
+            addRequiredAttribute("xid", XID);
+            addRequiredAttribute("metaurl", URL);
+            addRequiredAttribute("versionsurl", URL);
+            addRequiredAttribute("versionscount", UINTEGER);
 
-            addOptionalAttribute("maxversions", UINTEGER);
-            addOptionalAttribute("setversionid", BOOLEAN);
-            addOptionalAttribute("setdefaultversionsticky", BOOLEAN);
-            addOptionalAttribute("hasdocument", BOOLEAN);
-            addOptionalAttribute("typemap", MAP);
-            addOptionalAttribute("metaattributes", MAP);
-            addOptionalAttribute("labels", MAP);
-
-            var attributeDefinition = AttributeDefinition.Builder.newInstance()
-                    .clientRequired(true)
-                    .serverRequired(true)
-                    .name(definition.singular + "id").build();
-            attribute(attributeDefinition);
+            addOptionalAttribute("meta", MAP);
+//            addOptionalAttribute("maxversions", UINTEGER);
+//            addOptionalAttribute("setversionid", BOOLEAN);
+//            addOptionalAttribute("setdefaultversionsticky", BOOLEAN);
+//            addOptionalAttribute("hasdocument", BOOLEAN);
+//            addOptionalAttribute("typemap", MAP);
+//            addOptionalAttribute("metaattributes", MAP);
+//            addOptionalAttribute("labels", MAP);
 
             var intersection = new HashSet<>(definition.attributes.values());
             intersection.retainAll(definition.metaAttributes.values());
@@ -64,6 +72,10 @@ public class ResourceDefinition extends AbstractTypeDefinition {
                         .map(AttributeDefinition::getName)
                         .collect(joining(",")));
             }
+
+            result.versionDefinition = VersionDefinition.Builder.newInstance()
+                    .resourceName(definition.singular)
+                    .build();
             return result;
         }
 

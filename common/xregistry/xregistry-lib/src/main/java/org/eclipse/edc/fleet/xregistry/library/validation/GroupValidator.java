@@ -53,15 +53,35 @@ public class GroupValidator implements RegistryTypeValidator<GroupDefinition> {
                     var context = format("%s[%s].%s", groupDefinition.getContext(), groupEntry.getKey(), resourceDefinition.getPlural());
                     return invalidType(context);
                 }
-                Set<Map.Entry> set = resourceMap.entrySet();
-                return set.stream().map(resourceEntry -> {
+                Set<Map.Entry> resourceSet = resourceMap.entrySet();
+                return resourceSet.stream().map(resourceEntry -> {
                     if (!(resourceEntry.getValue() instanceof Map resourceEntryMap)) {
-                        var context = format("%s[%s].%s[%s]", groupDefinition.getContext(), groupEntry.getKey(), resourceDefinition.getPlural(), resourceEntry.getKey());
+                        var context = format("%s.%s[%s]", groupDefinition.getContext(), resourceDefinition.getPlural(), resourceEntry.getKey());
                         return invalidType(context);
                     }
-                    return attributeValidator.validate(resourceEntryMap, resourceDefinition);
+                    // validate the resource
+                    var resourceResult = attributeValidator.validate(resourceEntryMap, resourceDefinition);
+
+                    // validate resource versions
+                    var versions = resourceEntryMap.get("versions");
+                    if (versions == null) {
+                        return resourceResult;
+                    }
+                    if (!(versions instanceof Map versionMap)) {
+                        var context = format("%s[%s].%s[%s].versions", groupDefinition.getContext(), groupEntry.getKey(), resourceDefinition.getPlural(), resourceEntry.getKey());
+                        return invalidType(context);
+                    }
+                    Set<Map.Entry> versionSet = versionMap.entrySet();
+                    return versionSet.stream().map(versionEntry -> {
+                        if (!(versionEntry.getValue() instanceof Map versionEntryMap)) {
+                            var context = format("%s.%s[%s].[%s]", groupDefinition.getContext(),  resourceDefinition.getPlural(), resourceEntry.getKey(), versionEntry.getKey());
+                            return invalidType(context);
+                        }
+                        return attributeValidator.validate(versionEntryMap, resourceDefinition.getVersionDefinition());
+                    }).reduce(resourceResult, ValidationResult::coalesce);
                 }).reduce(success(), ValidationResult::coalesce);
             }).reduce(result, ValidationResult::coalesce);
         }).reduce(success(), ValidationResult::coalesce);
     }
+
 }
