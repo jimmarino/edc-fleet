@@ -65,6 +65,12 @@ public class RegistryDefinition extends AbstractTypeDefinition {
             addRequiredAttribute("epoch", UINTEGER);
             addRequiredAttribute("createdat", TIMESTAMP);
             addRequiredAttribute("modifiedat", TIMESTAMP);
+
+            definition.groups.values().forEach(group -> {
+                addRequiredAttribute(group.getGroupName() + "url", URL);
+                addRequiredAttribute(group.getGroupName() + "count", UINTEGER);
+            });
+
             addOptionalAttribute("description", STRING);
             addOptionalAttribute("documentation", URL);
             addOptionalAttribute("labels", MAP);

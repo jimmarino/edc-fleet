@@ -25,6 +25,8 @@ public interface PolicyDefinitions {
               "epoch": 1,
               "createdat": "2024-12-19T06:00:00Z",
               "modifiedat": "2024-12-19T06:00:00Z",
+              "policygroupsurl": "#/policygroups",
+              "policygroupscount": 1,
               "policygroups": {
                 "Corporate.Policies": {
                   "policygroupid": "Corporate.Policies",

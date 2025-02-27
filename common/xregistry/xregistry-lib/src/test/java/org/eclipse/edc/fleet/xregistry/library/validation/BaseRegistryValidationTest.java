@@ -27,7 +27,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BaseRegistryValidationTest {
-    private static final Set<String> MANDATORY_REGISTRY = Set.of("registryid", "specversion", "self", "xid", "url", "epoch", "createdat", "modifiedat");
+    private static final Set<String> MANDATORY_REGISTRY = Set.of("registryid", "specversion", "self", "xid", "url", "epoch", "createdat", "modifiedat", "foogroupsurl", "foogroupscount");
     private static final Set<String> MANDATORY_GROUP = Set.of("foogroupid", "self", "xid", "foosurl", "fooscount", "epoch", "createdat", "modifiedat");
     private ObjectMapper mapper;
     private RegistryValidator registryValidator;
@@ -63,7 +63,7 @@ public class BaseRegistryValidationTest {
 
         assertThat(result.valid()).isFalse();
         assertThat(result.violations().size()).isEqualTo(MANDATORY_REGISTRY.size());
-        assertThat(result.violations()).allMatch(v -> assertMatch(v,MANDATORY_REGISTRY));
+        assertThat(result.violations()).allMatch(v -> assertMatch(v, MANDATORY_REGISTRY));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class BaseRegistryValidationTest {
 
         assertThat(result.valid()).isFalse();
         assertThat(result.violations().size()).isEqualTo(MANDATORY_GROUP.size());
-        assertThat(result.violations()).allMatch(v -> assertMatch(v,MANDATORY_GROUP));
+        assertThat(result.violations()).allMatch(v -> assertMatch(v, MANDATORY_GROUP));
     }
 
     @Test
@@ -132,6 +132,8 @@ public class BaseRegistryValidationTest {
               "epoch": 1,
               "createdat": "2024-12-19T06:00:00Z",
               "modifiedat": "2024-12-19T06:00:00Z",
+              "foogroupsurl": "#/foogroups/",
+              "foogroupscount": 1,
               "foogroups": {
                 "Fabrikam.Type1": {
                   "foogroupid": "Fabrikam.Type1",
@@ -158,6 +160,8 @@ public class BaseRegistryValidationTest {
               "epoch": 1,
               "createdat": "2024-12-19T06:00:00Z",
               "modifiedat": "2024-12-19T06:00:00Z",
+              "foogroupsurl": "#/foogroups/",
+              "foogroupscount": 1,
               "foogroups": {
                 "Fabrikam.Type1": {
                   "entries": {
