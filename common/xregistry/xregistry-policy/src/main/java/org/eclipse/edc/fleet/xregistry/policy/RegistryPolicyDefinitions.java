@@ -31,8 +31,8 @@ public class RegistryPolicyDefinitions {
 
     public static GroupDefinition createPolicyGroupDefinition() {
         return GroupDefinition.Builder.newInstance()
-                .singular("policy")
-                .plural("policies")
+                .singular("policygroup")
+                .plural("policygroups")
                 .resource(createPolicyResourceDefinition())
                 .build();
     }

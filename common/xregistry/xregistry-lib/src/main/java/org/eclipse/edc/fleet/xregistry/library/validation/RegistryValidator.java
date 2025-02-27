@@ -43,7 +43,7 @@ public class RegistryValidator implements RegistryTypeValidator<RegistryDefiniti
         // validate groups
         return registryDefinition.getGroups().values().stream()
                 .map(groupDefinition -> {
-                    var groupName = groupDefinition.getGroupName();
+                    var groupName = groupDefinition.getPlural();
                     var group = registry.get(groupName);
                     if (group == null) {
                         return success();

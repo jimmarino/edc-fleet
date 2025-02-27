@@ -48,18 +48,18 @@ class RegistryValidatorTest {
         var data = mapper.readValue(EXAMPLE, Map.class);
 
         var fooGroupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("foo")
-                .plural("foos")
+                .singular("foogroup")
+                .plural("foogroups")
                 .build();
 
         var barGroupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("bar")
-                .plural("bars")
+                .singular("bargroup")
+                .plural("bargroups")
                 .build();
 
         var bazGroupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("baz")
-                .plural("bazs")
+                .singular("bazgroup")
+                .plural("bazgroups")
                 .build();
 
         var registryDefinition = RegistryDefinition.Builder.newInstance()
@@ -91,18 +91,18 @@ class RegistryValidatorTest {
         var data = mapper.readValue(EXAMPLE, Map.class);
 
         var fooGroupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("foo")
-                .plural("foos")
+                .singular("foogroup")
+                .plural("foogroups")
                 .build();
 
         var barGroupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("bar")
-                .plural("bars")
+                .singular("bargroup")
+                .plural("bargroups")
                 .build();
 
         var bazGroupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("baz")
-                .plural("bazs")
+                .singular("bazgroup")
+                .plural("bazgroups")
                 .build();
 
         var registryDefinition = RegistryDefinition.Builder.newInstance()
@@ -133,13 +133,13 @@ class RegistryValidatorTest {
         var data = mapper.readValue(EXAMPLE, Map.class);
 
         var fooGroupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("foo")
-                .plural("foos")
+                .singular("foogroup")
+                .plural("foogroups")
                 .build();
 
         var barGroupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("bar")
-                .plural("bars")
+                .singular("bargroup")
+                .plural("bargroups")
                 .build();
 
         var registryDefinition = RegistryDefinition.Builder.newInstance()

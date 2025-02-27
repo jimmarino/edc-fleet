@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.edc.fleet.xregistry.model.GroupDefinition;
 import org.eclipse.edc.fleet.xregistry.model.RegistryDefinition;
+import org.eclipse.edc.fleet.xregistry.model.ResourceDefinition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,8 +38,8 @@ public class BaseRegistryValidationTest {
     void verify_validateUnknownGroupIgnored() throws JsonProcessingException {
         var data = mapper.readValue(VALID_REGISTRY, Map.class);
         var groupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("foo")
-                .plural("foos")
+                .singular("foogroup")
+                .plural("foogroups")
                 .build();
         var registryDefinition = RegistryDefinition.Builder.newInstance()
                 .group(groupDefinition)
@@ -53,8 +54,8 @@ public class BaseRegistryValidationTest {
     void verify_missingMandatoryRegistryAttributes_fails() throws JsonProcessingException {
         var data = mapper.readValue(MISSING_MANDATORY_REGISTRY_ATTRIBUTES, Map.class);
         var groupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("foo")
-                .plural("foos")
+                .singular("foogroup")
+                .plural("foogroups")
                 .build();
         var registryDefinition = RegistryDefinition.Builder.newInstance()
                 .group(groupDefinition)
@@ -70,9 +71,14 @@ public class BaseRegistryValidationTest {
     @SuppressWarnings("unchecked")
     void verify_missingGroupAttributes_fails() throws JsonProcessingException {
         var data = mapper.readValue(MISSING_MANDATORY_GROUP_ATTRIBUTES, Map.class);
-        var groupDefinition = GroupDefinition.Builder.newInstance()
+        var resourceDefinition = ResourceDefinition.Builder.newInstance()
                 .singular("foo")
                 .plural("foos")
+                .build();
+        var groupDefinition = GroupDefinition.Builder.newInstance()
+                .singular("foogroup")
+                .plural("foogroups")
+                .resource(resourceDefinition)
                 .build();
         var registryDefinition = RegistryDefinition.Builder.newInstance()
                 .group(groupDefinition)
@@ -89,8 +95,8 @@ public class BaseRegistryValidationTest {
     void verify_invalidTypes_fails() throws JsonProcessingException {
         var data = mapper.readValue(INVALID_TYPES_REGISTRY, Map.class);
         var groupDefinition = GroupDefinition.Builder.newInstance()
-                .singular("foo")
-                .plural("foos")
+                .singular("foogroup")
+                .plural("foogroups")
                 .build();
         var registryDefinition = RegistryDefinition.Builder.newInstance()
                 .group(groupDefinition)

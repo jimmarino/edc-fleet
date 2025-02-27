@@ -38,12 +38,8 @@ public class GroupDefinition extends AbstractTypeDefinition {
         return resources.get(name);
     }
 
-    public String getGroupName() {
-        return getSingular() + "groups";
-    }
-
     protected void setContext(String parent) {
-        super.setContext(parent + "." + getGroupName());
+        super.setContext(parent + "." + getPlural());
         resources.values().forEach(r -> r.setContext(context));
     }
 
@@ -63,14 +59,17 @@ public class GroupDefinition extends AbstractTypeDefinition {
 
         public GroupDefinition build() {
             var result = super.build();
-            addRequiredAttribute(definition.singular + "groupid", STRING);
+            addRequiredAttribute(definition.singular + "id", STRING);
             addRequiredAttribute("self", URL);
             addRequiredAttribute("xid", XID);
             addRequiredAttribute("epoch", UINTEGER);
             addRequiredAttribute("createdat", TIMESTAMP);
             addRequiredAttribute("modifiedat", TIMESTAMP);
-            addRequiredAttribute(definition.plural+ "url", URL);
-            addRequiredAttribute(definition.plural+ "count", UINTEGER);
+
+            definition.resources.values().forEach(resource -> {
+                addRequiredAttribute(resource.getPlural() + "url", URL);
+                addRequiredAttribute(resource.getPlural() + "count", UINTEGER);
+            });
 
             addOptionalAttribute("shortself", URL);
             addOptionalAttribute("name", STRING);

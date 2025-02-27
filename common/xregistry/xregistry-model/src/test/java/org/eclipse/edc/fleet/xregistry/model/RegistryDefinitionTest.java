@@ -10,8 +10,8 @@ class RegistryDefinitionTest {
     @Test
     void verify()  {
         var group = GroupDefinition.Builder.newInstance()
-                .singular("schema")
-                .plural("schemas")
+                .singular("schemagroup")
+                .plural("schemasgroup")
                 .build();
 
         var registry = RegistryDefinition.Builder.newInstance()

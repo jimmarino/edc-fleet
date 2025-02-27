@@ -67,8 +67,8 @@ public class RegistryDefinition extends AbstractTypeDefinition {
             addRequiredAttribute("modifiedat", TIMESTAMP);
 
             definition.groups.values().forEach(group -> {
-                addRequiredAttribute(group.getGroupName() + "url", URL);
-                addRequiredAttribute(group.getGroupName() + "count", UINTEGER);
+                addRequiredAttribute(group.getPlural() + "url", URL);
+                addRequiredAttribute(group.getPlural() + "count", UINTEGER);
             });
 
             addOptionalAttribute("description", STRING);
