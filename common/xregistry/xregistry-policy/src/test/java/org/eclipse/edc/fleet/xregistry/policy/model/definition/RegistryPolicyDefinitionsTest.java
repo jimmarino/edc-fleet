@@ -12,22 +12,22 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.policy;
+package org.eclipse.edc.fleet.xregistry.policy.model.definition;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.edc.fleet.xregistry.library.validation.AttributeValidator;
 import org.eclipse.edc.fleet.xregistry.library.validation.GroupValidator;
 import org.eclipse.edc.fleet.xregistry.library.validation.RegistryValidator;
-import org.eclipse.edc.fleet.xregistry.model.RegistryDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.RegistryDefinition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.edc.fleet.xregistry.policy.PolicyDefinitions.SIMPLE_POLICY_RESOURCE;
-import static org.eclipse.edc.fleet.xregistry.policy.RegistryPolicyDefinitions.createPolicyGroupDefinition;
+import static org.eclipse.edc.fleet.xregistry.policy.model.definition.PolicyDefinitions.SIMPLE_POLICY_RESOURCE;
+import static org.eclipse.edc.fleet.xregistry.policy.model.definition.RegistryPolicyDefinitions.createPolicyGroupDefinition;
 
 class RegistryPolicyDefinitionsTest {
     private ObjectMapper mapper;

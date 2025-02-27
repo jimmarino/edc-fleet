@@ -16,9 +16,9 @@ package org.eclipse.edc.fleet.xregistry.library.validation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.edc.fleet.xregistry.model.GroupDefinition;
-import org.eclipse.edc.fleet.xregistry.model.RegistryDefinition;
-import org.eclipse.edc.fleet.xregistry.model.ResourceDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.RegistryDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,14 +26,14 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.CREATED_AT;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.EPOCH;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.MODIFIED_AT;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.REGISTRY_ID;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SELF;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SPEC_VERSION;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.URL;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.XID;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.CREATED_AT;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.EPOCH;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.MODIFIED_AT;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.REGISTRY_ID;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SELF;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SPEC_VERSION;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.URL;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.XID;
 
 public class BaseRegistryValidationTest {
     private static final Set<String> MANDATORY_REGISTRY = Set.of(REGISTRY_ID, SPEC_VERSION, SELF, XID, URL, EPOCH, CREATED_AT, MODIFIED_AT, "foogroupsurl", "foogroupscount");

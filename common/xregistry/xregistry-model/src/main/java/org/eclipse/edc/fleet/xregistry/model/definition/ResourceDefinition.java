@@ -12,19 +12,19 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.model;
+package org.eclipse.edc.fleet.xregistry.model.definition;
 
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.ID;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.META;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.META_URL;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SELF;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.VERSIONS_COUNT;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.VERSIONS_URL;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.UINTEGER;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.URL;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.XID;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.ID;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.META;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.META_URL;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SELF;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.VERSIONS_COUNT;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.VERSIONS_URL;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.MAP;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.STRING;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.UINTEGER;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.URL;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.XID;
 
 /**
  * Defines an XRegistry resource.

@@ -14,9 +14,9 @@
 
 package org.eclipse.edc.fleet.xregistry.library.validation;
 
-import org.eclipse.edc.fleet.xregistry.model.AbstractTypeDefinition;
-import org.eclipse.edc.fleet.xregistry.model.GroupDefinition;
-import org.eclipse.edc.fleet.xregistry.model.RegistryDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.AbstractTypeDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.RegistryDefinition;
 
 import java.util.Map;
 

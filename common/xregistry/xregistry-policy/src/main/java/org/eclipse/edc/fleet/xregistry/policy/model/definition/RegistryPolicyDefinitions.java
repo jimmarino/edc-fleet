@@ -12,17 +12,17 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.policy;
+package org.eclipse.edc.fleet.xregistry.policy.model.definition;
 
-import org.eclipse.edc.fleet.xregistry.model.AttributeDefinition;
-import org.eclipse.edc.fleet.xregistry.model.GroupDefinition;
-import org.eclipse.edc.fleet.xregistry.model.ResourceDefinition;
-import org.eclipse.edc.fleet.xregistry.model.ValueType;
-import org.eclipse.edc.fleet.xregistry.model.VersionDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.AttributeDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.ValueType;
+import org.eclipse.edc.fleet.xregistry.model.definition.VersionDefinition;
 
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.BOOLEAN;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.XID;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.BOOLEAN;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.STRING;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.XID;
 
 /**
  * Creates XRegistry definitions for policy artifacts.

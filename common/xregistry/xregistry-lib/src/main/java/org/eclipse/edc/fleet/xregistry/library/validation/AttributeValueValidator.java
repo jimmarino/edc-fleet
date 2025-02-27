@@ -14,7 +14,7 @@
 
 package org.eclipse.edc.fleet.xregistry.library.validation;
 
-import org.eclipse.edc.fleet.xregistry.model.ValueType;
+import org.eclipse.edc.fleet.xregistry.model.definition.ValueType;
 
 import java.net.URI;
 import java.time.Instant;
@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.NAME_VALIDATION;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.ARRAY;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.NAME_VALIDATION;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.ARRAY;
 
 /**
  * Validates an attribute value by type.

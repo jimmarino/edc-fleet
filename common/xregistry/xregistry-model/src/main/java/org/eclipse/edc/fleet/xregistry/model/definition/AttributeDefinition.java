@@ -12,17 +12,17 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.model;
+package org.eclipse.edc.fleet.xregistry.model.definition;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.NAME_VALIDATION;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.ANY;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.ARRAY;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.NAME_VALIDATION;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.ANY;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.ARRAY;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.MAP;
 
 /**
  * Defines an XRegistry model attribute.

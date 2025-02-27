@@ -12,7 +12,7 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.schema;
+package org.eclipse.edc.fleet.xregistry.schema.model.definition;
 
 /**
  *

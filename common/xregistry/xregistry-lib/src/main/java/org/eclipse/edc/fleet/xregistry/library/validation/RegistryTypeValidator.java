@@ -14,7 +14,7 @@
 
 package org.eclipse.edc.fleet.xregistry.library.validation;
 
-import org.eclipse.edc.fleet.xregistry.model.AbstractTypeDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.AbstractTypeDefinition;
 
 import java.util.Map;
 

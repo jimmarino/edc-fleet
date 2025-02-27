@@ -12,7 +12,7 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.model;
+package org.eclipse.edc.fleet.xregistry.model.definition;
 
 import java.util.regex.Pattern;
 

@@ -14,7 +14,7 @@
 
 package org.eclipse.edc.fleet.xregistry.library.validation;
 
-import org.eclipse.edc.fleet.xregistry.model.ValueType;
+import org.eclipse.edc.fleet.xregistry.model.definition.ValueType;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -16,8 +16,8 @@ package org.eclipse.edc.fleet.xregistry.library.validation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.edc.fleet.xregistry.model.GroupDefinition;
-import org.eclipse.edc.fleet.xregistry.model.RegistryDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.RegistryDefinition;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

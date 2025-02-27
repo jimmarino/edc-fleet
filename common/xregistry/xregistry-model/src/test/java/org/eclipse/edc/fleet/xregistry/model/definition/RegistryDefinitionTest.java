@@ -1,4 +1,4 @@
-package org.eclipse.edc.fleet.xregistry.model;
+package org.eclipse.edc.fleet.xregistry.model.definition;
 
 import org.junit.jupiter.api.Test;
 

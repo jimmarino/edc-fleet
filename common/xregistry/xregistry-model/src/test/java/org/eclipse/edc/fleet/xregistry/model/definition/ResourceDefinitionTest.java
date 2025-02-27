@@ -12,27 +12,14 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.model;
+package org.eclipse.edc.fleet.xregistry.model.definition;
 
-/**
- * Defined value types.
- */
-public enum ValueType {
-    ANY,
-    BOOLEAN,
-    DECIMAL,
-    INTEGER,
-    XID,
-    STRING,
-    TIMESTAMP,
-    UINTEGER,
-    URI,
-    URI_ABSOLUTE,
-    URI_RELATIVE,
-    URI_TEMPLATE,
-    URL,
-    URL_ABSOLUTE,
-    URL_RELATIVE,
-    ARRAY,
-    MAP
+import org.junit.jupiter.api.Test;
+
+class ResourceDefinitionTest {
+
+    @Test
+    void verify_build() {
+        AttributeDefinition.Builder.newInstance().name("foo").build();
+    }
 }

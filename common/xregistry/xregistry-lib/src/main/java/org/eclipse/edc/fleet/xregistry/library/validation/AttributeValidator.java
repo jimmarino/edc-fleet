@@ -14,8 +14,8 @@
 
 package org.eclipse.edc.fleet.xregistry.library.validation;
 
-import org.eclipse.edc.fleet.xregistry.model.AbstractTypeDefinition;
-import org.eclipse.edc.fleet.xregistry.model.AttributeDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.AbstractTypeDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.AttributeDefinition;
 
 import java.util.Map;
 import java.util.Set;
@@ -28,9 +28,9 @@ import static org.eclipse.edc.fleet.xregistry.library.validation.RegistryTypeVal
 import static org.eclipse.edc.fleet.xregistry.library.validation.ValidationResult.failure;
 import static org.eclipse.edc.fleet.xregistry.library.validation.ValidationResult.missingProperty;
 import static org.eclipse.edc.fleet.xregistry.library.validation.ValidationResult.success;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.ID;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.ARRAY;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.ID;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.ARRAY;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.MAP;
 
 /**
  * Validates attributes on an entry.

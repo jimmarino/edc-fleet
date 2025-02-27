@@ -12,40 +12,40 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.model;
+package org.eclipse.edc.fleet.xregistry.model.definition;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.CAPABILITIES;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.COUNT;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.CREATED_AT;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.DESCRIPTION;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.DOCUMENTATION;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.ENFORCE_COMPAT;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.EPOCH;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.FLAGS;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.LABELS;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.MODEL;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.MODIFIED_AT;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.MUTABLE;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.NAME;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.PAGINATION;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.REGISTRIES;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.REGISTRY;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.REGISTRY_ID;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SCHEMAS;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SELF;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SHORT_SELF;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SPEC_VERSION;
-import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SPEC_VERSIONS;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.BOOLEAN;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.TIMESTAMP;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.UINTEGER;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.URL;
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.XID;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.CAPABILITIES;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.COUNT;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.CREATED_AT;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.DESCRIPTION;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.DOCUMENTATION;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.ENFORCE_COMPAT;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.EPOCH;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.FLAGS;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.LABELS;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.MODEL;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.MODIFIED_AT;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.MUTABLE;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.NAME;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.PAGINATION;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.REGISTRIES;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.REGISTRY;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.REGISTRY_ID;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SCHEMAS;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SELF;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SHORT_SELF;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SPEC_VERSION;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SPEC_VERSIONS;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.BOOLEAN;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.MAP;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.STRING;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.TIMESTAMP;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.UINTEGER;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.URL;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.XID;
 
 /**
  * Defines an XRegistry model.

@@ -12,14 +12,14 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.schema;
+package org.eclipse.edc.fleet.xregistry.schema.model.definition;
 
-import org.eclipse.edc.fleet.xregistry.model.AttributeDefinition;
-import org.eclipse.edc.fleet.xregistry.model.GroupDefinition;
-import org.eclipse.edc.fleet.xregistry.model.ResourceDefinition;
-import org.eclipse.edc.fleet.xregistry.model.ValueType;
+import org.eclipse.edc.fleet.xregistry.model.definition.AttributeDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.ValueType;
 
-import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
+import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.STRING;
 
 /**
  * Creates XRegistry definitions for schema artifacts.

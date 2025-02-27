@@ -12,7 +12,7 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.policy;
+package org.eclipse.edc.fleet.xregistry.policy.model.definition;
 
 public interface PolicyDefinitions {
     String SIMPLE_POLICY_RESOURCE = """
