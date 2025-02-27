@@ -17,6 +17,28 @@ package org.eclipse.edc.fleet.xregistry.model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.CAPABILITIES;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.COUNT;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.CREATED_AT;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.DESCRIPTION;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.DOCUMENTATION;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.ENFORCE_COMPAT;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.EPOCH;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.FLAGS;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.LABELS;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.MODEL;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.MODIFIED_AT;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.MUTABLE;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.NAME;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.PAGINATION;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.REGISTRIES;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.REGISTRY;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.REGISTRY_ID;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SCHEMAS;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SELF;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SHORT_SELF;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SPEC_VERSION;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SPEC_VERSIONS;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.BOOLEAN;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
@@ -57,25 +79,25 @@ public class RegistryDefinition extends AbstractTypeDefinition {
         public RegistryDefinition build() {
             var result = super.build();
 
-            addRequiredAttribute("specversion", STRING);
-            addRequiredAttribute("registryid", STRING);
-            addRequiredAttribute("self", STRING);
-            addRequiredAttribute("xid", XID);
-            addRequiredAttribute("url", URL);
-            addRequiredAttribute("epoch", UINTEGER);
-            addRequiredAttribute("createdat", TIMESTAMP);
-            addRequiredAttribute("modifiedat", TIMESTAMP);
+            addRequiredAttribute(SPEC_VERSION, STRING);
+            addRequiredAttribute(REGISTRY_ID, STRING);
+            addRequiredAttribute(SELF, STRING);
+            addRequiredAttribute(RegistryConstants.XID, XID);
+            addRequiredAttribute(RegistryConstants.URL, URL);
+            addRequiredAttribute(EPOCH, UINTEGER);
+            addRequiredAttribute(CREATED_AT, TIMESTAMP);
+            addRequiredAttribute(MODIFIED_AT, TIMESTAMP);
 
             definition.groups.values().forEach(group -> {
-                addRequiredAttribute(group.getPlural() + "url", URL);
-                addRequiredAttribute(group.getPlural() + "count", UINTEGER);
+                addRequiredAttribute(group.getPlural() + RegistryConstants.URL, URL);
+                addRequiredAttribute(group.getPlural() + COUNT, UINTEGER);
             });
 
-            addOptionalAttribute("description", STRING);
-            addOptionalAttribute("documentation", URL);
-            addOptionalAttribute("labels", MAP);
-            addOptionalAttribute("name", STRING);
-            addOptionalAttribute("shortself", URL);
+            addOptionalAttribute(DESCRIPTION, STRING);
+            addOptionalAttribute(DOCUMENTATION, URL);
+            addOptionalAttribute(LABELS, MAP);
+            addOptionalAttribute(NAME, STRING);
+            addOptionalAttribute(SHORT_SELF, URL);
             createCapabilities();
             createModel();
 
@@ -85,34 +107,34 @@ public class RegistryDefinition extends AbstractTypeDefinition {
 
         private Builder() {
             super(new RegistryDefinition());
-            definition.singular = "registry";
-            definition.plural = "registries";
+            definition.singular = REGISTRY;
+            definition.plural = REGISTRIES;
         }
 
         private void createCapabilities() {
             var capabilities = AttributeDefinition.Builder
                     .newInstance()
-                    .name("capabilities")
-                    .attribute(createDefinition("enforcecompatibility", BOOLEAN))
-                    .attribute(createDefinition("pagination", BOOLEAN))
-                    .attribute(createDefinition("shortself", BOOLEAN))
-                    .attribute(createDefinition("flags", STRING))
-                    .attribute(createDefinition("mutable", STRING))
-                    .attribute(createDefinition("schemas", STRING))
-                    .attribute(createDefinition("specversions", STRING))
+                    .name(CAPABILITIES)
+                    .attribute(createDefinition(ENFORCE_COMPAT, BOOLEAN))
+                    .attribute(createDefinition(PAGINATION, BOOLEAN))
+                    .attribute(createDefinition(SHORT_SELF, BOOLEAN))
+                    .attribute(createDefinition(FLAGS, STRING))
+                    .attribute(createDefinition(MUTABLE, STRING))
+                    .attribute(createDefinition(SCHEMAS, STRING))
+                    .attribute(createDefinition(SPEC_VERSIONS, STRING))
                     .type(MAP)
                     .build();
-            definition.attributes.put("capabilities", capabilities);
+            definition.attributes.put(CAPABILITIES, capabilities);
         }
 
         private void createModel() {
             var model = AttributeDefinition.Builder
                     .newInstance()
-                    .name("model")
-                    .attribute(createDefinition("labels", MAP))
+                    .name(MODEL)
+                    .attribute(createDefinition(LABELS, MAP))
                     .type(MAP)
                     .build();
-            definition.attributes.put("model", model);
+            definition.attributes.put(MODEL, model);
         }
     }
 }

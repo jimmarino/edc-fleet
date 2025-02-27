@@ -26,10 +26,18 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.CREATED_AT;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.EPOCH;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.MODIFIED_AT;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.REGISTRY_ID;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SELF;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SPEC_VERSION;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.URL;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.XID;
 
 public class BaseRegistryValidationTest {
-    private static final Set<String> MANDATORY_REGISTRY = Set.of("registryid", "specversion", "self", "xid", "url", "epoch", "createdat", "modifiedat", "foogroupsurl", "foogroupscount");
-    private static final Set<String> MANDATORY_GROUP = Set.of("foogroupid", "self", "xid", "foosurl", "fooscount", "epoch", "createdat", "modifiedat");
+    private static final Set<String> MANDATORY_REGISTRY = Set.of(REGISTRY_ID, SPEC_VERSION, SELF, XID, URL, EPOCH, CREATED_AT, MODIFIED_AT, "foogroupsurl", "foogroupscount");
+    private static final Set<String> MANDATORY_GROUP = Set.of(SELF, XID, EPOCH, CREATED_AT, MODIFIED_AT, "foogroupid", "foosurl", "fooscount");
     private ObjectMapper mapper;
     private RegistryValidator registryValidator;
 

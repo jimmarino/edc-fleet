@@ -14,6 +14,12 @@
 
 package org.eclipse.edc.fleet.xregistry.model;
 
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.ID;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.META;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.META_URL;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.SELF;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.VERSIONS_COUNT;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.VERSIONS_URL;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.STRING;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.UINTEGER;
@@ -53,14 +59,14 @@ public class ResourceDefinition extends AbstractTypeDefinition {
 
         public ResourceDefinition build() {
             var result = super.build();
-            addRequiredAttribute(definition.singular + "id", STRING);
-            addRequiredAttribute("self", URL);
-            addRequiredAttribute("xid", XID);
-            addRequiredAttribute("metaurl", URL);
-            addRequiredAttribute("versionsurl", URL);
-            addRequiredAttribute("versionscount", UINTEGER);
+            addRequiredAttribute(definition.singular + ID, STRING);
+            addRequiredAttribute(SELF, URL);
+            addRequiredAttribute(RegistryConstants.XID, XID);
+            addRequiredAttribute(META_URL, URL);
+            addRequiredAttribute(VERSIONS_URL, URL);
+            addRequiredAttribute(VERSIONS_COUNT, UINTEGER);
 
-            addOptionalAttribute("meta", MAP);
+            addOptionalAttribute(META, MAP);
 
             if (definition.versionDefinition == null) {
                 result.versionDefinition = VersionDefinition.Builder.newInstance()

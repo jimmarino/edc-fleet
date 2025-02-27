@@ -28,6 +28,7 @@ import static org.eclipse.edc.fleet.xregistry.library.validation.RegistryTypeVal
 import static org.eclipse.edc.fleet.xregistry.library.validation.ValidationResult.failure;
 import static org.eclipse.edc.fleet.xregistry.library.validation.ValidationResult.missingProperty;
 import static org.eclipse.edc.fleet.xregistry.library.validation.ValidationResult.success;
+import static org.eclipse.edc.fleet.xregistry.model.RegistryConstants.ID;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.ARRAY;
 import static org.eclipse.edc.fleet.xregistry.model.ValueType.MAP;
 
@@ -89,7 +90,7 @@ public class AttributeValidator implements RegistryTypeValidator<AbstractTypeDef
      * Calculates the context, including an entity ID if present.
      */
     private String calculateContext(Map<String, Object> entry, AbstractTypeDefinition typeDefinition) {
-        var entityId = entry.get(typeDefinition.getSingular() + "id");
+        var entityId = entry.get(typeDefinition.getSingular() + ID);
         return typeDefinition.getContext() + (entityId != null ? "[" + entityId + "]" : "");
     }
 
