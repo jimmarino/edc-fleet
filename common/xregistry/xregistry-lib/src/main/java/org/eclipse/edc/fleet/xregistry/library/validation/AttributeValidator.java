@@ -83,7 +83,14 @@ public class AttributeValidator implements RegistryTypeValidator<AbstractTypeDef
                     componentType)));
 
         }
-        return result;
+        var constraints = attributeDefinition.getTypeConstraintsChecker().apply(value);
+        if (constraints == null) {
+            return result;
+        }
+        return result.coalesce(failure(Set.of(format("Invalid property type %s for %s: %s",
+                type.toString(),
+                context + "." + attributeDefinition.getName(),
+                constraints))));
     }
 
     /**

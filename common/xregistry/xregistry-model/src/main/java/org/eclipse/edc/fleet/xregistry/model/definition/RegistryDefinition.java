@@ -83,7 +83,6 @@ public class RegistryDefinition extends AbstractTypeDefinition {
             addRequiredAttribute(REGISTRY_ID, STRING);
             addRequiredAttribute(SELF, STRING);
             addRequiredAttribute(RegistryConstants.XID, XID);
-            addRequiredAttribute(RegistryConstants.URL, URL);
             addRequiredAttribute(EPOCH, UINTEGER);
             addRequiredAttribute(CREATED_AT, TIMESTAMP);
             addRequiredAttribute(MODIFIED_AT, TIMESTAMP);

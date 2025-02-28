@@ -17,6 +17,7 @@ package org.eclipse.edc.fleet.xregistry.model.definition;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.NAME_VALIDATION;
@@ -28,6 +29,8 @@ import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.MAP;
  * Defines an XRegistry model attribute.
  */
 public class AttributeDefinition {
+    private static final Function<Object, String> ALWAYS_CHECKER = o -> null;
+
     private String name;
     private ValueType type = ANY;
     private ValueType componentType = ANY;
@@ -38,6 +41,9 @@ public class AttributeDefinition {
     private boolean clientRequired;
     private boolean readonly;
     private List<String> enumeration;
+
+    // Performs additional type constraints checking. If they pass, null is returned; otherwise an error
+    private Function<Object, String> typeConstraintsChecker = ALWAYS_CHECKER;
 
     private Map<String, AttributeDefinition> attributes = new HashMap<>();
 
@@ -97,6 +103,10 @@ public class AttributeDefinition {
         return enumeration;
     }
 
+    public Function<Object, String> getTypeConstraintsChecker() {
+        return typeConstraintsChecker;
+    }
+
     private AttributeDefinition() {
     }
 
@@ -137,6 +147,11 @@ public class AttributeDefinition {
 
         public Builder type(ValueType type) {
             definition.type = type;
+            return this;
+        }
+
+        public Builder typeConstraintsChecker(Function<Object, String> checker) {
+            definition.typeConstraintsChecker = checker;
             return this;
         }
 

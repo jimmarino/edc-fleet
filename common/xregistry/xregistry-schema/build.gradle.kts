@@ -19,5 +19,6 @@ plugins {
 
 dependencies {
     api(project(":common:xregistry:xregistry-model"))
+    testImplementation(project(":common:xregistry:xregistry-lib"))
     testImplementation(libs.edc.junit)
 }

@@ -32,11 +32,10 @@ import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants
 import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.REGISTRY_ID;
 import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SELF;
 import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SPEC_VERSION;
-import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.URL;
 import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.XID;
 
 public class BaseRegistryValidationTest {
-    private static final Set<String> MANDATORY_REGISTRY = Set.of(REGISTRY_ID, SPEC_VERSION, SELF, XID, URL, EPOCH, CREATED_AT, MODIFIED_AT, "foogroupsurl", "foogroupscount");
+    private static final Set<String> MANDATORY_REGISTRY = Set.of(REGISTRY_ID, SPEC_VERSION, SELF, XID, EPOCH, CREATED_AT, MODIFIED_AT, "foogroupsurl", "foogroupscount");
     private static final Set<String> MANDATORY_GROUP = Set.of(SELF, XID, EPOCH, CREATED_AT, MODIFIED_AT, "foogroupid", "foosurl", "fooscount");
     private ObjectMapper mapper;
     private RegistryValidator registryValidator;
@@ -142,7 +141,6 @@ public class BaseRegistryValidationTest {
               "registryid": "sample",
               "self": "https://localhost:8080/xregistry",
               "xid": "/xregistry",
-              "url": "https://localhost:8080/xregistry",
               "epoch": 1,
               "createdat": "2024-12-19T06:00:00Z",
               "modifiedat": "2024-12-19T06:00:00Z",
@@ -170,7 +168,6 @@ public class BaseRegistryValidationTest {
               "registryid": "sample",
               "self": "https://localhost:8080/xregistry",
               "xid": "/xregistry",
-              "url": "https://localhost:8080/xregistry",
               "epoch": 1,
               "createdat": "2024-12-19T06:00:00Z",
               "modifiedat": "2024-12-19T06:00:00Z",
@@ -190,7 +187,6 @@ public class BaseRegistryValidationTest {
               "registryid": 1,
               "self": 1,
               "xid": 1,
-              "url": 1,
               "epoch": "epoch",
               "createdat": 1,
               "modifiedat":1

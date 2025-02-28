@@ -41,7 +41,7 @@ public class AttributeValueValidator {
         VALIDATORS.put(ValueType.INTEGER, o -> o instanceof Integer);
         VALIDATORS.put(ValueType.UINTEGER, o -> o instanceof Integer && ((Integer) o) >= 0);
         VALIDATORS.put(ValueType.STRING, o -> o instanceof String);
-        VALIDATORS.put(ValueType.XID, o -> o instanceof String s && s.startsWith("/") && s.length() > 1);
+        VALIDATORS.put(ValueType.XID, o -> o instanceof String s && s.startsWith("/"));
         VALIDATORS.put(ValueType.URI, AttributeValueValidator::validateUri);
         VALIDATORS.put(ValueType.URI_ABSOLUTE, AttributeValueValidator::validateAbsoluteUri);
         VALIDATORS.put(ValueType.URI_RELATIVE, AttributeValueValidator::validateRelativeUri);

@@ -18,6 +18,7 @@ import org.eclipse.edc.fleet.xregistry.model.definition.AttributeDefinition;
 import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
 import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 import org.eclipse.edc.fleet.xregistry.model.definition.ValueType;
+import org.eclipse.edc.fleet.xregistry.model.definition.VersionDefinition;
 
 import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.STRING;
 
@@ -26,19 +27,25 @@ import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.STRING;
  */
 public class RegistrySchemaDefinitions {
 
-    public static GroupDefinition createPolicyGroupDefinition() {
+    public static GroupDefinition createSchemaGroupDefinition() {
         return GroupDefinition.Builder.newInstance()
-                .singular("policy")
-                .plural("policies")
+                .singular("schemagroup")
+                .plural("schemagroups")
                 .resource(createSchemaResourceDefinition())
                 .build();
     }
 
     public static ResourceDefinition createSchemaResourceDefinition() {
+        var versionDefinition = VersionDefinition.Builder.newInstance()
+                .resourceName("schema")
+                .attribute(createDefinition("format", STRING))
+                .attribute(createDefinition("schema", STRING))
+                .attribute(createDefinition("schemabase64", STRING))
+                .build();
         return ResourceDefinition.Builder.newInstance()
                 .singular("schema")
                 .plural("schemas")
-                .attribute(createDefinition("format", STRING))
+                .versionDefinition(versionDefinition)
                 .build();
     }
 

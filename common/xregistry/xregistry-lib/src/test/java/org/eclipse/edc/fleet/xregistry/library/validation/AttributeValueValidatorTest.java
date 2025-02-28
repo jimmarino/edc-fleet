@@ -77,6 +77,7 @@ class AttributeValueValidatorTest {
 
     @Test
     void validate_references() {
+        assertThat(validateAttributeValue("/", ValueType.XID)).isTrue();
         assertThat(validateAttributeValue("/test/test", ValueType.XID)).isTrue();
         assertThat(validateAttributeValue("invalid", ValueType.XID)).isFalse();
         assertThat(validateAttributeValue("http://test.com", ValueType.XID)).isFalse();

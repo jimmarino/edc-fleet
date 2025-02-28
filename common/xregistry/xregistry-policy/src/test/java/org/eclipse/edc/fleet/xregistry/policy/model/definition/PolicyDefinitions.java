@@ -21,7 +21,6 @@ public interface PolicyDefinitions {
               "registryid": "sample",
               "self": "https://localhost:8080/xregistry",
               "xid": "/xregistry",
-              "url": "https://localhost:8080/xregistry",
               "epoch": 1,
               "createdat": "2024-12-19T06:00:00Z",
               "modifiedat": "2024-12-19T06:00:00Z",
