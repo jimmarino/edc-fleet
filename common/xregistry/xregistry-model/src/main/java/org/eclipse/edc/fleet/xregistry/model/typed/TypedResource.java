@@ -24,7 +24,7 @@ import java.util.Map;
 public abstract class TypedResource extends AbstractType<ResourceDefinition> {
     protected ResourceDefinition definition;
 
-    public TypedResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
+    protected TypedResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
         this.definition = definition;
     }

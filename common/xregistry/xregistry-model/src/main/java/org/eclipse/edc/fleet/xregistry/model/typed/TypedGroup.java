@@ -26,23 +26,6 @@ import java.util.Map;
 public class TypedGroup extends AbstractType<GroupDefinition> {
     private Map<String, TypedResource> typedResources = new HashMap<>();
 
-    @SuppressWarnings("unchecked")
-    public TypedGroup(Map<String, Object> untyped, GroupDefinition definition, TypeFactory typeFactory) {
-        super(untyped, definition, typeFactory);
-        this.definition = definition;
-
-        definition.getResources().values().forEach(resourceDefinition -> {
-            Map<String, Object> resources = (Map<String, Object>) untyped.get(resourceDefinition.getPlural());
-            if (resources == null) {
-                return;
-            }
-            resources.forEach((key, resource) -> {
-                var typedResource = typeFactory.instantiate((Map<String, Object>) resource, resourceDefinition);
-                typedResources.put(typedResource.getId(), typedResource);
-            });
-        });
-    }
-
     public Map<String, TypedResource> getResources() {
         return typedResources;
     }
@@ -64,6 +47,23 @@ public class TypedGroup extends AbstractType<GroupDefinition> {
                 .untyped(untyped)
                 .definition(definition)
                 .typeFactory(typeFactory);
+    }
+
+    @SuppressWarnings("unchecked")
+    private TypedGroup(Map<String, Object> untyped, GroupDefinition definition, TypeFactory typeFactory) {
+        super(untyped, definition, typeFactory);
+        this.definition = definition;
+
+        definition.getResources().values().forEach(resourceDefinition -> {
+            Map<String, Object> resources = (Map<String, Object>) untyped.get(resourceDefinition.getPlural());
+            if (resources == null) {
+                return;
+            }
+            resources.forEach((key, resource) -> {
+                var typedResource = typeFactory.instantiate((Map<String, Object>) resource, resourceDefinition);
+                typedResources.put(typedResource.getId(), typedResource);
+            });
+        });
     }
 
     public static class Builder extends AbstractType.Builder<GroupDefinition, Builder> {
