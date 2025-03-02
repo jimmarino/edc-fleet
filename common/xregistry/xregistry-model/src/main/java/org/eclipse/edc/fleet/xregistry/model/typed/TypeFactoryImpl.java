@@ -27,7 +27,7 @@ public class TypeFactoryImpl implements TypeFactory {
 
     @Override
     public TypedResource instantiate(Map<String, Object> untyped, ResourceDefinition definition) {
-        return (TypedResource) instantiators
+        return instantiators
                 .computeIfAbsent(definition.getSingular(), key -> {
                     throw new IllegalArgumentException("Unknown type: " + key);
                 })
