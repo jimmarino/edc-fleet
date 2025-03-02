@@ -81,7 +81,7 @@ public class RegistryDefinition extends AbstractTypeDefinition {
 
             addRequiredAttribute(SPEC_VERSION, STRING);
             addRequiredAttribute(REGISTRY_ID, STRING);
-            addRequiredAttribute(SELF, STRING);
+            addRequiredAttribute(SELF, STRING); // TODO handle JSON Pointer
             addRequiredAttribute(RegistryConstants.XID, XID);
             addRequiredAttribute(EPOCH, UINTEGER);
             addRequiredAttribute(CREATED_AT, TIMESTAMP);

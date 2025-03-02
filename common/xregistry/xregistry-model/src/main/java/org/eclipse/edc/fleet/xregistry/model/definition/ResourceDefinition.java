@@ -60,7 +60,7 @@ public class ResourceDefinition extends AbstractTypeDefinition {
         public ResourceDefinition build() {
             var result = super.build();
             addRequiredAttribute(definition.singular + ID, STRING);
-            addRequiredAttribute(SELF, URL);
+            addRequiredAttribute(SELF, STRING);   // TODO handle JSON Pointer
             addRequiredAttribute(RegistryConstants.XID, XID);
             addRequiredAttribute(META_URL, URL);
             addRequiredAttribute(VERSIONS_URL, URL);

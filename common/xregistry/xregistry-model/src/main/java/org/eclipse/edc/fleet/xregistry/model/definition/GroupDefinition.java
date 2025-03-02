@@ -70,7 +70,7 @@ public class GroupDefinition extends AbstractTypeDefinition {
         public GroupDefinition build() {
             var result = super.build();
             addRequiredAttribute(definition.singular + ID, STRING);
-            addRequiredAttribute(SELF, URL);
+            addRequiredAttribute(SELF, STRING); // TODO handle JSON Pointer
             addRequiredAttribute(RegistryConstants.XID, XID);
             addRequiredAttribute(EPOCH, UINTEGER);
             addRequiredAttribute(CREATED_AT, TIMESTAMP);
