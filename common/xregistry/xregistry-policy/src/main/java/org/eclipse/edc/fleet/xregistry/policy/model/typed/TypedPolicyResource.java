@@ -26,15 +26,15 @@ import java.util.Map;
  */
 public class TypedPolicyResource extends TypedResource {
 
-    public TypedPolicyResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
-        super(untyped, definition, typeFactory);
-    }
-
     public Builder asBuilder() {
         return Builder.newInstance()
                 .untyped(untyped)
                 .definition(definition)
                 .typeFactory(typeFactory);
+    }
+
+    private TypedPolicyResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
+        super(untyped, definition, typeFactory);
     }
 
     public static class Builder extends AbstractType.Builder<ResourceDefinition, Builder> {
