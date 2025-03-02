@@ -105,6 +105,11 @@ public abstract class AbstractType<D extends AbstractTypeDefinition> {
         return value == null ? 0 : (Integer) value;
     }
 
+    public boolean getBool(String name) {
+        var value = untyped.get(name);
+        return value != null && (Boolean) value;
+    }
+
     public URL getUrl(String key) {
         var value = untyped.get(key);
         try {

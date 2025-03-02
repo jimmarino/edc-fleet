@@ -23,6 +23,9 @@ import org.eclipse.edc.fleet.xregistry.model.definition.VersionDefinition;
 import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.BOOLEAN;
 import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.STRING;
 import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.XID;
+import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.ACCESS_POLICY;
+import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.CONTROL_POLICY;
+import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.POLICY_DEFINITION;
 
 /**
  * Creates XRegistry definitions for policy artifacts.
@@ -41,10 +44,10 @@ public class RegistryPolicyDefinitions {
         var versionDefinition = VersionDefinition.Builder.newInstance()
                 .resourceName("policy")
                 .attribute(createDefinition("description", STRING))
-                .attribute(createDefinition("controlpolicy", BOOLEAN))
-                .attribute(createDefinition("accesspolicy", BOOLEAN))
+                .attribute(createDefinition(CONTROL_POLICY, BOOLEAN))
+                .attribute(createDefinition(ACCESS_POLICY, BOOLEAN))
                 .attribute(AttributeDefinition.Builder.newInstance()
-                        .name("policydefinition")
+                        .name(POLICY_DEFINITION)
                         .serverRequired(true)
                         .clientRequired(true)
                         .type(STRING)

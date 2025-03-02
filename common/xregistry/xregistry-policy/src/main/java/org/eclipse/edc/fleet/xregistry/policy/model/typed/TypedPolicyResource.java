@@ -37,6 +37,11 @@ public class TypedPolicyResource extends TypedResource<TypedPolicyVersion> {
         super(untyped, definition, typeFactory);
     }
 
+    @Override
+    protected TypedPolicyVersion createVersion(Map<String, Object> untypedVersion) {
+        return new TypedPolicyVersion(untypedVersion, definition.getVersionDefinition(), typeFactory);
+    }
+
     public static class Builder extends AbstractType.Builder<ResourceDefinition, Builder> {
 
         public static Builder newInstance() {

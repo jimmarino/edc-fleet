@@ -15,21 +15,45 @@
 package org.eclipse.edc.fleet.xregistry.policy.model.typed;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.VersionDefinition;
+import org.eclipse.edc.fleet.xregistry.model.typed.AbstractType;
 import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactory;
 import org.eclipse.edc.fleet.xregistry.model.typed.TypedVersion;
 
 import java.util.Map;
+
+import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.ACCESS_POLICY;
+import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.CONTROL_POLICY;
+import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.POLICY_DEFINITION;
 
 /**
  * A typed view of a policy resource version.
  */
 public class TypedPolicyVersion extends TypedVersion {
 
+    public String getPolicyDefinition() {
+        return getString(POLICY_DEFINITION);
+    }
+
+    public boolean isControlPolicy() {
+        return getBool(CONTROL_POLICY);
+    }
+
+    public boolean isAccessPolicy() {
+        return getBool(ACCESS_POLICY);
+    }
+
     protected TypedPolicyVersion(Map<String, Object> untyped, VersionDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
     }
 
-    public static class Builder extends TypedVersion.Builder {
+    public Builder asBuilder() {
+        return Builder.newInstance()
+                .untyped(untyped)
+                .definition(definition)
+                .typeFactory(typeFactory);
+    }
+
+    public static class Builder extends AbstractType.Builder<VersionDefinition, Builder> {
 
         public static Builder newInstance() {
             return new Builder();

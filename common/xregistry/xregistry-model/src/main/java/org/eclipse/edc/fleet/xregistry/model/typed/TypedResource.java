@@ -18,6 +18,9 @@ import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.VERSIONS;
 
 /**
  * A typed view of an XRegistry resource.
@@ -30,10 +33,21 @@ public abstract class TypedResource<V extends TypedVersion> extends AbstractType
         return versions;
     }
 
+    @SuppressWarnings("unchecked")
     protected TypedResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
         this.definition = definition;
+        var untypedVersions = (Map<String, Map<String, Object>>) this.untyped.get(VERSIONS);
+        if (untypedVersions != null) {
+            Set<Map.Entry<String, Map<String, Object>>> entries = untypedVersions.entrySet();
+            entries.forEach(entry -> {
+                var typedVersion = createVersion(entry.getValue());
+                versions.put(entry.getKey(), typedVersion);
+            });
+        }
     }
+
+    protected abstract V createVersion(Map<String, Object> untypedVersion);
 
     public static class Builder<V extends TypedVersion> extends AbstractType.Builder<ResourceDefinition, Builder<V>> {
 

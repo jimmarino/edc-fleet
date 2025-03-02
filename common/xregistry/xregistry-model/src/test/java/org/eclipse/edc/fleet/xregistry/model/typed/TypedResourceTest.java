@@ -20,6 +20,7 @@ import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +35,7 @@ class TypedResourceTest {
     void verify_typedRegistry() throws JsonProcessingException {
         var untyped = mapper.readValue(TYPED_RESOURCE, Map.class);
 
-        var group = TypedMockResource.Builder.newInstance()
+        var resource = TypedMockResource.Builder.newInstance()
                 .untyped(untyped)
                 .definition(ResourceDefinition.Builder.newInstance()
                         .singular("entry")
@@ -43,9 +44,13 @@ class TypedResourceTest {
                 .typeFactory(mock(TypeFactory.class))
                 .build();
 
-        assertThat(group.getId()).isNotNull();
-        assertThat(group.getSelf()).isNotNull();
-        assertThat(group.getXid()).isNotNull();
+        assertThat(resource.getId()).isNotNull();
+        assertThat(resource.getSelf()).isNotNull();
+        assertThat(resource.getXid()).isNotNull();
+
+        Collection<TypedMockVersion> versions = resource.getVersions().values();
+        assertThat(versions.size()).isEqualTo(1);
+        assertThat(versions.iterator().next().getEntryDefinition()).isNotNull();
     }
 
     @BeforeEach

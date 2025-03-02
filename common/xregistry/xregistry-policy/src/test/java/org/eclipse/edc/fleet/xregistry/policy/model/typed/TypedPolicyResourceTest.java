@@ -21,6 +21,7 @@ import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,6 +48,13 @@ class TypedPolicyResourceTest {
         assertThat(resource.getId()).isNotNull();
         assertThat(resource.getSelf()).isNotNull();
         assertThat(resource.getXid()).isNotNull();
+
+        Collection<TypedPolicyVersion> versions = resource.getVersions().values();
+        assertThat(versions.size()).isEqualTo(1);
+        assertThat(versions.iterator().next().getPolicyDefinition()).isNotNull();
+        assertThat(versions.iterator().next().isControlPolicy()).isFalse();
+        assertThat(versions.iterator().next().isAccessPolicy()).isFalse();
+
     }
 
     @BeforeEach

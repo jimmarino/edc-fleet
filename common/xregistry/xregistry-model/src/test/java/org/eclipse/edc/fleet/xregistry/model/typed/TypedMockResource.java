@@ -24,6 +24,11 @@ public class TypedMockResource extends TypedResource<TypedMockVersion> {
         super(untyped, definition, typeFactory);
     }
 
+    @Override
+    protected TypedMockVersion createVersion(Map<String, Object> untypedVersion) {
+        return new TypedMockVersion(untypedVersion, definition.getVersionDefinition(), typeFactory);
+    }
+
     public Builder asBuilder() {
         return Builder.newInstance()
                 .untyped(untyped)

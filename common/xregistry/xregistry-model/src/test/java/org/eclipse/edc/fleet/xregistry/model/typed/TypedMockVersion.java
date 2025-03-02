@@ -20,7 +20,35 @@ import java.util.Map;
 
 public class TypedMockVersion extends TypedVersion {
 
+    public String getEntryDefinition() {
+        return getString("entrydefinition");
+    }
+
     protected TypedMockVersion(Map<String, Object> untyped, VersionDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
     }
+
+    public Builder asBuilder() {
+        return Builder.newInstance()
+                .untyped(untyped)
+                .definition(definition)
+                .typeFactory(typeFactory);
+    }
+
+    public static class Builder extends AbstractType.Builder<VersionDefinition, Builder> {
+
+        public static Builder newInstance() {
+            return new Builder();
+        }
+
+        public TypedMockVersion build() {
+            validate();
+            return new TypedMockVersion(untyped, definition, typeFactory);
+        }
+
+        private Builder() {
+            super();
+        }
+    }
+
 }
