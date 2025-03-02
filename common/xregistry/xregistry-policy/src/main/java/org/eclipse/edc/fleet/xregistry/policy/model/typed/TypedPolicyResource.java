@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Typed view of policy resources.
  */
-public class TypedPolicyResource extends TypedResource {
+public class TypedPolicyResource extends TypedResource<TypedPolicyVersion> {
 
     public Builder asBuilder() {
         return Builder.newInstance()
