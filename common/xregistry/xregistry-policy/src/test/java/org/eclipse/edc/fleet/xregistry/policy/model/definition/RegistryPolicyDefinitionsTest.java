@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.edc.fleet.xregistry.policy.model.definition.PolicyDefinitions.SIMPLE_POLICY_RESOURCE;
+import static org.eclipse.edc.fleet.xregistry.policy.model.fixture.TestSerializations.POLICY_REGISTRY;
 import static org.eclipse.edc.fleet.xregistry.policy.model.definition.RegistryPolicyDefinitions.createPolicyGroupDefinition;
 
 class RegistryPolicyDefinitionsTest {
@@ -36,7 +36,7 @@ class RegistryPolicyDefinitionsTest {
 
     @Test
     void verify_createAndValidate() throws JsonProcessingException {
-        var policy = mapper.readValue(SIMPLE_POLICY_RESOURCE, Map.class);
+        var policy = mapper.readValue(POLICY_REGISTRY, Map.class);
 
         @SuppressWarnings("unchecked")
         var result = validator.validate(policy, registry);

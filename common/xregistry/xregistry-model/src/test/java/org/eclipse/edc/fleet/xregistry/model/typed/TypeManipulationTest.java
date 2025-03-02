@@ -49,13 +49,13 @@ class TypeManipulationTest {
                 .typeFactory(typeFactory)
                 .build();
 
-        Map<String, MockTypedGroup> testGroups = registry.getGroups(TESTGROUPS);
+        Map<String, TypedMockGroup> testGroups = registry.getGroups(TESTGROUPS);
         assertThat(testGroups.size()).isEqualTo(1);
 
-        MockTypedGroup typedGroup = testGroups.get("test.group1");
+        TypedMockGroup typedGroup = testGroups.get("test.group1");
         assertThat(typedGroup.getResources().size()).isEqualTo(1);
 
-        MockTypedResource resource = typedGroup.getResource("entry1");
+        TypedMockResource resource = typedGroup.getResource("entry1");
         assertThat(resource.getId()).isEqualTo("entry1");
     }
 
@@ -63,8 +63,8 @@ class TypeManipulationTest {
     void setUp() {
         mapper = new ObjectMapper();
         typeFactory = new TypeFactoryImpl();
-        typeFactory.register(TypedGroup.class, TESTGROUP, MockTypedGroup::new);
-        typeFactory.register(TypedResource.class, ENTRY, MockTypedResource::new);
+        typeFactory.registerGroup(TESTGROUP, TypedMockGroup::new);
+        typeFactory.registerResource(ENTRY, TypedMockResource::new);
 
         var groupDefinition = GroupDefinition.Builder.newInstance()
                 .singular(TESTGROUP)

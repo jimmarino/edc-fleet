@@ -12,45 +12,47 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.model.typed;
+package org.eclipse.edc.fleet.xregistry.policy.model.typed;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
+import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.edc.fleet.xregistry.model.typed.TestSerializations.TYPED_RESOURCE;
-import static org.mockito.Mockito.mock;
+import static org.eclipse.edc.fleet.xregistry.policy.model.fixture.TestSerializations.POLICY_RESOURCE;
 
-class TypedResourceTest {
+class TypedPolicyResourceTest {
     private ObjectMapper mapper;
+    private TypeFactoryImpl typeFactory;
 
     @Test
     @SuppressWarnings("unchecked")
-    void verify_typedRegistry() throws JsonProcessingException {
-        var untyped = mapper.readValue(TYPED_RESOURCE, Map.class);
+    void verify_typedGroup() throws JsonProcessingException {
+        var untyped = mapper.readValue(POLICY_RESOURCE, Map.class);
 
-        var group = TypedMockResource.Builder.newInstance()
+        var resource = TypedPolicyResource.Builder.newInstance()
                 .untyped(untyped)
                 .definition(ResourceDefinition.Builder.newInstance()
-                        .singular("entry")
-                        .plural("entries")
+                        .singular("policy")
+                        .plural("policies")
                         .build())
-                .typeFactory(mock(TypeFactory.class))
+                .typeFactory(typeFactory)
                 .build();
 
-        assertThat(group.getId()).isNotNull();
-        assertThat(group.getSelf()).isNotNull();
-        assertThat(group.getXid()).isNotNull();
+        assertThat(resource.getId()).isNotNull();
+        assertThat(resource.getSelf()).isNotNull();
+        assertThat(resource.getXid()).isNotNull();
     }
 
     @BeforeEach
     void setUp() {
         mapper = new ObjectMapper();
+        typeFactory = new TypeFactoryImpl();
     }
 
 }

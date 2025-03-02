@@ -12,49 +12,45 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.model.typed;
+package org.eclipse.edc.fleet.xregistry.policy.model.typed;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
 import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
+import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.edc.fleet.xregistry.model.typed.TestSerializations.TYPED_GROUP;
+import static org.eclipse.edc.fleet.xregistry.policy.model.fixture.TestSerializations.POLICY_GROUP;
 
-class TypedGroupTest {
+class TypedPolicyGroupTest {
     private ObjectMapper mapper;
     private TypeFactoryImpl typeFactory;
 
     @Test
     @SuppressWarnings("unchecked")
     void verify_typedGroup() throws JsonProcessingException {
-        var untyped = mapper.readValue(TYPED_GROUP, Map.class);
+        var untyped = mapper.readValue(POLICY_GROUP, Map.class);
 
-        var group = TypedMockGroup.Builder.newInstance()
+        var group = TypedPolicyGroup.Builder.newInstance()
                 .untyped(untyped)
                 .definition(GroupDefinition.Builder.newInstance()
-                        .singular("testgroup")
-                        .plural("testgroups")
+                        .singular("policygroup")
+                        .plural("policygroups")
                         .resource(ResourceDefinition.Builder.newInstance()
-                                .singular("entry")
-                                .plural("entries")
+                                .singular("policy")
+                                .plural("policies")
                                 .build())
                         .build())
                 .typeFactory(typeFactory)
                 .build();
 
-        TypedMockResource resource = group.getResource("entry1");
+        TypedPolicyResource resource = group.getResource("Corporate.Headquarters.EU");
         assertThat(resource).isNotNull();
-
-        Collection<TypedMockResource> resources = group.getResourcesOfType(TypedMockResource.class);
-        assertThat(resources.size()).isEqualTo(1);
-        assertThat(resources.iterator().next().getId()).isNotNull();
 
         assertThat(group.getId()).isNotNull();
         assertThat(group.getCreatedAt()).isNotNull();
@@ -68,8 +64,7 @@ class TypedGroupTest {
     void setUp() {
         mapper = new ObjectMapper();
         typeFactory = new TypeFactoryImpl();
-        typeFactory.registerResource("entry", TypedMockResource::new);
-
+        typeFactory.registerResource("policy", TypedPolicyResource::new);
     }
 
 }

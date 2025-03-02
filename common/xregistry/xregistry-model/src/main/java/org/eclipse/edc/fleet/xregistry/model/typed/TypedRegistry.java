@@ -33,7 +33,7 @@ public class TypedRegistry extends AbstractType<RegistryDefinition> {
 
     @SuppressWarnings("unchecked")
     protected TypedRegistry(Map<String, Object> untyped, RegistryDefinition definition, TypeFactory typeFactory) {
-        super(untyped,definition, typeFactory);
+        super(untyped, definition, typeFactory);
         this.typeFactory = typeFactory;
         this.definition = definition;
         this.definition.getGroups().forEach((name, groupDefinition) -> {

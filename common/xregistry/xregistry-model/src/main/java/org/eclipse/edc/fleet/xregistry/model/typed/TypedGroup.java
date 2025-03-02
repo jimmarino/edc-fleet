@@ -16,6 +16,7 @@ package org.eclipse.edc.fleet.xregistry.model.typed;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +50,13 @@ public abstract class TypedGroup extends AbstractType<GroupDefinition> {
     @SuppressWarnings("unchecked")
     public <T extends TypedResource> T getResource(String name) {
         return (T) typedResources.get(name);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends TypedResource> Collection<T> getResourcesOfType(Class<T> type) {
+        return (Collection<T>) typedResources.values().stream()
+                .filter(typedResource -> typedResource.getClass().equals(type))
+                .toList();
     }
 
     public static class Builder extends AbstractType.Builder<GroupDefinition, Builder> {

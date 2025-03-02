@@ -1,6 +1,22 @@
+/*
+ *  Copyright (c) 2025 Metaform Systems, Inc.
+ *
+ *  This program and the accompanying materials are made available under the
+ *  terms of the Apache License, Version 2.0 which is available at
+ *  https://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  SPDX-License-Identifier: Apache-2.0
+ *
+ *  Contributors:
+ *       Metaform Systems, Inc. - initial API and implementation
+ *
+ */
+
 package org.eclipse.edc.fleet.xregistry.model.typed;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.AbstractTypeDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 
 import java.util.Map;
 
@@ -28,8 +44,13 @@ public interface TypeFactory {
     <T extends AbstractType<D>, D extends AbstractTypeDefinition> T instantiate(Class<T> type, Map<String, Object> untyped, D definition);
 
     /**
-     * Registers an {@link Instantiator}.
+     * Registers a group {@link Instantiator}.
      */
-    <T extends AbstractType<D>, D extends AbstractTypeDefinition> void register(Class<T> type, String name, Instantiator<D> instantiator);
+    void registerGroup(String name, Instantiator<GroupDefinition> instantiator);
+
+    /**
+     * Registers a resource {@link Instantiator}.
+     */
+    void registerResource(String name, Instantiator<ResourceDefinition> instantiator);
 
 }

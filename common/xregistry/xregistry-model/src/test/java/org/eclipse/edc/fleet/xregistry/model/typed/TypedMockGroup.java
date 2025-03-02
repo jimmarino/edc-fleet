@@ -18,9 +18,9 @@ import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
 
 import java.util.Map;
 
-public class MockTypedGroup extends TypedGroup {
+public class TypedMockGroup extends TypedGroup {
 
-    protected MockTypedGroup(Map<String, Object> untyped,
+    protected TypedMockGroup(Map<String, Object> untyped,
                              GroupDefinition definition,
                              TypeFactory typeFactory) {
         super(untyped,definition, typeFactory);
@@ -42,7 +42,7 @@ public class MockTypedGroup extends TypedGroup {
 
         public TypedGroup build() {
             validate();
-            return new MockTypedGroup(untyped, definition, typeFactory);
+            return new TypedMockGroup(untyped, definition, typeFactory);
         }
     }
 

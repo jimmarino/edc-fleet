@@ -15,6 +15,8 @@
 package org.eclipse.edc.fleet.xregistry.model.typed;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.AbstractTypeDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +39,13 @@ public class TypeFactoryImpl implements TypeFactory {
     }
 
     @Override
-    public <T extends AbstractType<D>, D extends AbstractTypeDefinition> void register(Class<T> type, String name, Instantiator<D> instantiator) {
-        instantiators.put(new InstantiatorKey<>(type, name), instantiator);
+    public void registerGroup(String name, Instantiator<GroupDefinition> instantiator) {
+        instantiators.put(new InstantiatorKey<>(TypedGroup.class, name), instantiator);
+    }
+
+    @Override
+    public void registerResource(String name, Instantiator<ResourceDefinition> instantiator) {
+        instantiators.put(new InstantiatorKey<>(TypedResource.class, name), instantiator);
     }
 
     private record InstantiatorKey<T extends AbstractType<?>>(Class<T> singular, String name) {

@@ -50,6 +50,6 @@ class TypeFactoryImplTest {
     @BeforeEach
     void setUp() {
         factory = new TypeFactoryImpl();
-        factory.register(TypedResource.class,"resource", MockTypedResource::new);
+        factory.registerResource("resource", TypedMockResource::new);
     }
 }
