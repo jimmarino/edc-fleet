@@ -26,6 +26,10 @@ public abstract class TypedResource<V extends TypedVersion> extends AbstractType
     protected ResourceDefinition definition;
     protected Map<String, V> versions = new HashMap<>();
 
+    public Map<String, V> getVersions() {
+        return versions;
+    }
+
     protected TypedResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
         this.definition = definition;

@@ -24,19 +24,19 @@ import java.util.Map;
  * A typed view of an XRegistry group.
  */
 public class TypedGroup extends AbstractType<GroupDefinition> {
-    private Map<String, TypedResource> typedResources = new HashMap<>();
+    private Map<String, TypedResource<?>> typedResources = new HashMap<>();
 
-    public Map<String, TypedResource> getResources() {
+    public Map<String, TypedResource<?>> getResources() {
         return typedResources;
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends TypedResource> T getResource(String name) {
+    public <T extends TypedResource<?>> T getResource(String name) {
         return (T) typedResources.get(name);
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends TypedResource> Collection<T> getResourcesOfType(Class<T> type) {
+    public <T extends TypedResource<?>> Collection<T> getResourcesOfType(Class<T> type) {
         return (Collection<T>) typedResources.values().stream()
                 .filter(typedResource -> typedResource.getClass().equals(type))
                 .toList();
