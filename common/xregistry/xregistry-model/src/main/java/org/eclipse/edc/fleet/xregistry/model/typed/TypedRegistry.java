@@ -40,7 +40,12 @@ public class TypedRegistry extends AbstractType<RegistryDefinition> {
             var groupContainerName = groupDefinition.getPlural();
             var groupsMap = (Map<String, Map<String, Object>>) untyped.get(groupContainerName);
             groupsMap.forEach((groupName, group) -> {
-                var typedGroup = typeFactory.instantiate(TypedGroup.class, group, groupDefinition);
+                var typedGroup = TypedGroup.Builder.newInstance()
+                        .untyped(group)
+                        .definition(groupDefinition)
+                        .typeFactory(typeFactory)
+                        .build();
+
                 typedGroups.put(name, Map.of(groupName, typedGroup));
             });
         });
@@ -52,7 +57,7 @@ public class TypedRegistry extends AbstractType<RegistryDefinition> {
     }
 
     public URL getUrl() {
-        return getUrl(SELF); // registriy level self attributes are URLs
+        return getUrl(SELF); // registry level self attributes are URLs
     }
 
     public Builder asBuilder() {

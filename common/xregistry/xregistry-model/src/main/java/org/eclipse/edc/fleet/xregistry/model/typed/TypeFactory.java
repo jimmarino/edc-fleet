@@ -14,8 +14,6 @@
 
 package org.eclipse.edc.fleet.xregistry.model.typed;
 
-import org.eclipse.edc.fleet.xregistry.model.definition.AbstractTypeDefinition;
-import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
 import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 
 import java.util.Map;
@@ -29,28 +27,22 @@ public interface TypeFactory {
      * Instantiates a typed view for the XRegistry data.
      */
     @FunctionalInterface
-    interface Instantiator<T extends AbstractTypeDefinition> {
-        AbstractType<?> instantiate(Map<String, Object> untyped, T definition, TypeFactory typeFactory);
+    interface Instantiator {
+        TypedResource instantiate(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory);
     }
 
     /**
      * Instantiates an XRegistry type.
      *
-     * @param type       the type to instantiate
      * @param untyped    the untyped data
      * @param definition the type definition
      * @return the instance
      */
-    <T extends AbstractType<D>, D extends AbstractTypeDefinition> T instantiate(Class<T> type, Map<String, Object> untyped, D definition);
-
-    /**
-     * Registers a group {@link Instantiator}.
-     */
-    void registerGroup(String name, Instantiator<GroupDefinition> instantiator);
+    TypedResource instantiate(Map<String, Object> untyped, ResourceDefinition definition);
 
     /**
      * Registers a resource {@link Instantiator}.
      */
-    void registerResource(String name, Instantiator<ResourceDefinition> instantiator);
+    void registerResource(String name, Instantiator instantiator);
 
 }

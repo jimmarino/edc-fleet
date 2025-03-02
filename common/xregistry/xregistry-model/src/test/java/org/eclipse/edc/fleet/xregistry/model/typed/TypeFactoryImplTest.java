@@ -14,7 +14,6 @@
 
 package org.eclipse.edc.fleet.xregistry.model.typed;
 
-import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
 import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,17 +33,17 @@ class TypeFactoryImplTest {
                 .plural("resources")
                 .build();
 
-        assertThat(factory.instantiate(TypedResource.class, Map.of(), definition)).isNotNull();
+        assertThat(factory.instantiate(Map.of(), definition)).isNotNull();
     }
 
     @Test
     void validate_unknownType_fails() {
-        var definition = GroupDefinition.Builder.newInstance()
-                .singular("group")
-                .plural("groupgroups")
+        var definition = ResourceDefinition.Builder.newInstance()
+                .singular("unknown")
+                .plural("unknowns")
                 .build();
 
-        assertThatThrownBy(()->factory.instantiate(TypedGroup.class, Map.of(), definition)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> factory.instantiate(Map.of(), definition)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @BeforeEach

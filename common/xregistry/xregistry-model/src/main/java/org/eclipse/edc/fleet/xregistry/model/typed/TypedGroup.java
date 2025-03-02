@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * A typed view of an XRegistry group.
  */
-public abstract class TypedGroup extends AbstractType<GroupDefinition> {
+public class TypedGroup extends AbstractType<GroupDefinition> {
     private Map<String, TypedResource> typedResources = new HashMap<>();
 
     @SuppressWarnings("unchecked")
@@ -37,7 +37,7 @@ public abstract class TypedGroup extends AbstractType<GroupDefinition> {
                 return;
             }
             resources.forEach((key, resource) -> {
-                var typedResource = typeFactory.instantiate(TypedResource.class, (Map<String, Object>) resource, resourceDefinition);
+                var typedResource = typeFactory.instantiate((Map<String, Object>) resource, resourceDefinition);
                 typedResources.put(typedResource.getId(), typedResource);
             });
         });
@@ -59,6 +59,13 @@ public abstract class TypedGroup extends AbstractType<GroupDefinition> {
                 .toList();
     }
 
+    public Builder asBuilder() {
+        return Builder.newInstance()
+                .untyped(untyped)
+                .definition(definition)
+                .typeFactory(typeFactory);
+    }
+
     public static class Builder extends AbstractType.Builder<GroupDefinition, Builder> {
 
         public static Builder newInstance() {
@@ -73,6 +80,11 @@ public abstract class TypedGroup extends AbstractType<GroupDefinition> {
         public Builder deleteGroup(String name) {
             checkModifiableState();
             throw new UnsupportedOperationException();
+        }
+
+        public TypedGroup build() {
+            validate();
+            return new TypedGroup(untyped, definition, typeFactory);
         }
 
         private Builder() {

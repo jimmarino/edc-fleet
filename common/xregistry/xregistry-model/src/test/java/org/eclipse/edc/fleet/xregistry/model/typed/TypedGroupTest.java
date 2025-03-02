@@ -36,7 +36,7 @@ class TypedGroupTest {
     void verify_typedGroup() throws JsonProcessingException {
         var untyped = mapper.readValue(TYPED_GROUP, Map.class);
 
-        var group = TypedMockGroup.Builder.newInstance()
+        var group = TypedGroup.Builder.newInstance()
                 .untyped(untyped)
                 .definition(GroupDefinition.Builder.newInstance()
                         .singular("testgroup")
