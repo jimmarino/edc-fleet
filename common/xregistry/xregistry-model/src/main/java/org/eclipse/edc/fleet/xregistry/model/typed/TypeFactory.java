@@ -28,7 +28,7 @@ public interface TypeFactory {
      */
     @FunctionalInterface
     interface Instantiator {
-        TypedResource instantiate(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory);
+        TypedResource<?> instantiate(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory);
     }
 
     /**
@@ -38,7 +38,7 @@ public interface TypeFactory {
      * @param definition the type definition
      * @return the instance
      */
-    TypedResource instantiate(Map<String, Object> untyped, ResourceDefinition definition);
+    TypedResource<?> instantiate(Map<String, Object> untyped, ResourceDefinition definition);
 
     /**
      * Registers a resource {@link Instantiator}.
