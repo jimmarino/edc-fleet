@@ -54,7 +54,6 @@ class TypedPolicyResourceTest {
         assertThat(versions.iterator().next().getPolicyDefinition()).isNotNull();
         assertThat(versions.iterator().next().isControlPolicy()).isFalse();
         assertThat(versions.iterator().next().isAccessPolicy()).isFalse();
-
     }
 
     @BeforeEach
