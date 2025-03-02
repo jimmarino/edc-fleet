@@ -18,7 +18,7 @@ import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 
 import java.util.Map;
 
-public class TypedMockResource extends TypedResource {
+public class TypedMockResource extends TypedResource<TypedMockVersion> {
 
     public TypedMockResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
@@ -37,7 +37,7 @@ public class TypedMockResource extends TypedResource {
             return new Builder();
         }
 
-        public TypedResource build() {
+        public TypedMockResource build() {
             validate();
             return new TypedMockResource(untyped, definition, typeFactory);
         }

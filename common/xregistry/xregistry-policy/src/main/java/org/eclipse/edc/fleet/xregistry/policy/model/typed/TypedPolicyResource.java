@@ -43,7 +43,7 @@ public class TypedPolicyResource extends TypedResource {
             return new Builder();
         }
 
-        public TypedResource build() {
+        public TypedPolicyResource build() {
             validate();
             return new TypedPolicyResource(untyped, definition, typeFactory);
         }

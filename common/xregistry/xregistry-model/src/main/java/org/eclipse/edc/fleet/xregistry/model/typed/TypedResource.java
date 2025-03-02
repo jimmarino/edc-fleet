@@ -16,31 +16,29 @@ package org.eclipse.edc.fleet.xregistry.model.typed;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * A typed view of an XRegistry resource.
  */
-public abstract class TypedResource extends AbstractType<ResourceDefinition> {
+public abstract class TypedResource<V extends TypedVersion> extends AbstractType<ResourceDefinition> {
     protected ResourceDefinition definition;
+    protected Map<String, V> versions = new HashMap<>();
 
     protected TypedResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
         this.definition = definition;
     }
 
-    public static class Builder extends AbstractType.Builder<ResourceDefinition, Builder> {
+    public static class Builder<V extends TypedVersion> extends AbstractType.Builder<ResourceDefinition, Builder<V>> {
 
-        public static Builder newInstance() {
-            return new Builder();
-        }
-
-        public Builder resource(String name, TypedResource typedResource) {
+        public Builder<V> version(String name, V typedResource) {
             checkModifiableState();
             throw new UnsupportedOperationException();
         }
 
-        public Builder deleteResource(String name) {
+        public Builder<V> deleteVersion(String name) {
             checkModifiableState();
             throw new UnsupportedOperationException();
         }
@@ -48,6 +46,4 @@ public abstract class TypedResource extends AbstractType<ResourceDefinition> {
         private Builder() {
         }
     }
-
-
 }
