@@ -19,7 +19,7 @@ import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 import java.util.Map;
 
 /**
- * Delegates to {@link TypeFactory.Instantiator}s to create typed views of XRegistry data.
+ * Delegates to {@link TypeFactory.Instantiator}s to create typed views of XRegistry resources.
  */
 public interface TypeFactory {
 
