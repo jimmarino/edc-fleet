@@ -54,10 +54,7 @@ class TypeManipulationTest {
 
         var resource = typedGroup.getResourcesOfType(TypedMockResource.class).iterator().next();
 
-        var builder = resource.toBuilder();
-        assertThat(builder.removeVersion("1.0")).isTrue();
-        var modified = builder.build();
-
+        var modified = resource.toBuilder().removeVersion("1.0").build();
         assertThat(modified.getVersions()).isEmpty();
 
         // check root was updated

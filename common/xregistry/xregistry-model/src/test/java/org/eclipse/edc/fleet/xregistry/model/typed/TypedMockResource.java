@@ -40,13 +40,14 @@ public class TypedMockResource extends TypedResource<TypedMockVersion> {
 
     public static class Builder extends AbstractType.Builder<ResourceDefinition, Builder> {
 
-        public boolean removeVersion(String name){
+        public Builder removeVersion(String name){
             @SuppressWarnings("unchecked")
             var untypedVersions = (Map<String, Map<String, Object>>) this.untyped.get(VERSIONS);
             if (untypedVersions == null) {
-                return false;
+                return this;
             }
-            return untypedVersions.remove(name) != null;
+            untypedVersions.remove(name);
+            return this;
         }
 
         public static Builder newInstance() {
