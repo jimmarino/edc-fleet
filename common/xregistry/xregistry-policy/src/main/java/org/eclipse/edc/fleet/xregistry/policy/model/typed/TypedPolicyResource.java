@@ -15,7 +15,6 @@
 package org.eclipse.edc.fleet.xregistry.policy.model.typed;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
-import org.eclipse.edc.fleet.xregistry.model.typed.AbstractType;
 import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactory;
 import org.eclipse.edc.fleet.xregistry.model.typed.TypedResource;
 
@@ -42,7 +41,7 @@ public class TypedPolicyResource extends TypedResource<TypedPolicyVersion> {
         return new TypedPolicyVersion(untypedVersion, definition.getVersionDefinition(), typeFactory);
     }
 
-    public static class Builder extends AbstractType.Builder<ResourceDefinition, Builder> {
+    public static class Builder extends TypedResource.Builder<TypedPolicyVersion, Builder> {
 
         public static Builder newInstance() {
             return new Builder();

@@ -81,7 +81,7 @@ public class TypedRegistry extends AbstractType<RegistryDefinition> {
             throw new UnsupportedOperationException();
         }
 
-        public Builder deleteGroup(String name) {
+        public Builder removeGroup(String name) {
             checkModifiableState();
             throw new UnsupportedOperationException();
         }

@@ -15,7 +15,6 @@
 package org.eclipse.edc.fleet.xregistry.policy.model.typed;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.VersionDefinition;
-import org.eclipse.edc.fleet.xregistry.model.typed.AbstractType;
 import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactory;
 import org.eclipse.edc.fleet.xregistry.model.typed.TypedVersion;
 
@@ -53,7 +52,7 @@ public class TypedPolicyVersion extends TypedVersion {
                 .typeFactory(typeFactory);
     }
 
-    public static class Builder extends AbstractType.Builder<VersionDefinition, Builder> {
+    public static class Builder extends TypedVersion.Builder<VersionDefinition, Builder> {
 
         public static Builder newInstance() {
             return new Builder();

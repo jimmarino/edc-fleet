@@ -52,19 +52,26 @@ public abstract class TypedResource<V extends TypedVersion> extends AbstractType
 
     protected abstract V createVersion(Map<String, Object> untypedVersion);
 
-    public static class Builder<V extends TypedVersion> extends AbstractType.Builder<ResourceDefinition, Builder<V>> {
+    public static class Builder<V extends TypedVersion, B extends Builder<V, B>> extends AbstractType.Builder<ResourceDefinition, B> {
 
-        public Builder<V> version(String name, V typedResource) {
+        public B version(String name, V typedResource) {
             checkModifiableState();
             throw new UnsupportedOperationException();
         }
 
-        public Builder<V> deleteVersion(String name) {
-            checkModifiableState();
-            throw new UnsupportedOperationException();
+        @SuppressWarnings("unchecked")
+        public B removeVersion(String name) {
+            @SuppressWarnings("unchecked")
+            var untypedVersions = (Map<String, Map<String, Object>>) this.untyped.get(VERSIONS);
+            if (untypedVersions == null) {
+                return (B) this;
+            }
+            untypedVersions.remove(name);
+            return (B) this;
         }
 
-        private Builder() {
+
+        protected Builder() {
         }
     }
 }

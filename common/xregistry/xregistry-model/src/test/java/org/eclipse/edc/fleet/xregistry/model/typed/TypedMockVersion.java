@@ -35,7 +35,7 @@ public class TypedMockVersion extends TypedVersion {
                 .typeFactory(typeFactory);
     }
 
-    public static class Builder extends AbstractType.Builder<VersionDefinition, Builder> {
+    public static class Builder extends TypedVersion.Builder<VersionDefinition, Builder> {
 
         public static Builder newInstance() {
             return new Builder();

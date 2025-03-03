@@ -18,8 +18,6 @@ import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 
 import java.util.Map;
 
-import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.VERSIONS;
-
 public class TypedMockResource extends TypedResource<TypedMockVersion> {
 
     public TypedMockResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
@@ -38,17 +36,7 @@ public class TypedMockResource extends TypedResource<TypedMockVersion> {
                 .typeFactory(typeFactory);
     }
 
-    public static class Builder extends AbstractType.Builder<ResourceDefinition, Builder> {
-
-        public Builder removeVersion(String name){
-            @SuppressWarnings("unchecked")
-            var untypedVersions = (Map<String, Map<String, Object>>) this.untyped.get(VERSIONS);
-            if (untypedVersions == null) {
-                return this;
-            }
-            untypedVersions.remove(name);
-            return this;
-        }
+    public static class Builder extends TypedResource.Builder<TypedMockVersion, Builder> {
 
         public static Builder newInstance() {
             return new Builder();

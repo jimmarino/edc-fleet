@@ -29,6 +29,14 @@ public abstract class TypedVersion extends AbstractType<VersionDefinition> {
         this.definition = definition;
     }
 
+    public static class Builder<V extends VersionDefinition, B extends TypedVersion.Builder<V, B>>
+            extends AbstractType.Builder<VersionDefinition, B> {
+
+        protected Builder() {
+        }
+    }
+
+
 }
 
 
