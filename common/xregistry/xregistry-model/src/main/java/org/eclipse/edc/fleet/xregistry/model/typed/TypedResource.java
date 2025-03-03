@@ -16,6 +16,7 @@ package org.eclipse.edc.fleet.xregistry.model.typed;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public abstract class TypedResource<V extends TypedVersion> extends AbstractType
 
     @SuppressWarnings("unchecked")
     public Map<String, V> getVersions() {
-        var untypedVersions = (Map<String, Map<String, Object>>) this.untyped.get(VERSIONS);
+        var untypedVersions = (Map<String, Map<String, Object>>) untyped.get(VERSIONS);
         if (untypedVersions != null) {
             Set<Map.Entry<String, Map<String, Object>>> entries = untypedVersions.entrySet();
             return entries.stream().map(entry -> {
@@ -54,9 +55,12 @@ public abstract class TypedResource<V extends TypedVersion> extends AbstractType
 
     public static class Builder<V extends TypedVersion, B extends Builder<V, B>> extends AbstractType.Builder<ResourceDefinition, B> {
 
-        public B version(String name, V typedResource) {
+        @SuppressWarnings("unchecked")
+        public B version(String name, V version) {
             checkModifiableState();
-            throw new UnsupportedOperationException();
+            var versions = (Map<String, Map<String, Object>>) untyped.computeIfAbsent(VERSIONS, k -> new HashMap<>());
+            versions.put(version.getId(), version.getUntyped());
+            return (B) this;
         }
 
         @SuppressWarnings("unchecked")
