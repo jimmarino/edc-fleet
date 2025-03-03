@@ -142,6 +142,10 @@ public abstract class AbstractType<D extends AbstractTypeDefinition> {
         return unmodifiableUntyped;
     }
 
+    Map<String, Object> getUntyped() {
+        return untyped;
+    }
+
     public static class Builder<D extends AbstractTypeDefinition, B extends Builder<D, B>> {
         protected Map<String, Object> untyped;
         protected D definition;

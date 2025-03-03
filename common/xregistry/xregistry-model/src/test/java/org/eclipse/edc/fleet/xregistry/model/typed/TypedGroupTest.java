@@ -28,27 +28,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.edc.fleet.xregistry.model.typed.TestSerializations.TYPED_GROUP;
 
 class TypedGroupTest {
-    private ObjectMapper mapper;
-    private TypeFactoryImpl typeFactory;
+    private TypedGroup group;
+    private ResourceDefinition resourceDefinition;
+    private TypeFactory typeFactory;
 
     @Test
-    @SuppressWarnings("unchecked")
     void verify_typedGroup() throws JsonProcessingException {
-        var untyped = mapper.readValue(TYPED_GROUP, Map.class);
-
-        var group = TypedGroup.Builder.newInstance()
-                .untyped(untyped)
-                .definition(GroupDefinition.Builder.newInstance()
-                        .singular("testgroup")
-                        .plural("testgroups")
-                        .resource(ResourceDefinition.Builder.newInstance()
-                                .singular("entry")
-                                .plural("entries")
-                                .build())
-                        .build())
-                .typeFactory(typeFactory)
-                .build();
-
         TypedMockResource resource = group.getResource("entry1");
         assertThat(resource).isNotNull();
 
@@ -64,11 +49,54 @@ class TypedGroupTest {
         assertThat(group.getXid()).isNotNull();
     }
 
+    @Test
+    void verify_modify_resources() {
+        var builder = group.toBuilder();
+        var resource = TypedMockResource.Builder
+                .newInstance()
+                .untyped(Map.of("entryid", "entry2"))
+                .definition(resourceDefinition)
+                .typeFactory(typeFactory)
+                .build();
+
+        var modified = builder.resource(resource).build();
+
+        var resources = modified.getResourcesOfType(TypedMockResource.class);
+        assertThat(resources.size()).isEqualTo(2);
+        assertThat(resources).allMatch(r -> r.getId().equals("entry1") || r.getId().equals("entry2"));
+
+        modified = modified.toBuilder()
+                .deleteResource("entry1")
+                .build();
+
+        resources = modified.getResourcesOfType(TypedMockResource.class);
+        assertThat(resources.size()).isEqualTo(1);
+        assertThat(resources).allMatch(r -> r.getId().equals("entry2"));
+    }
+
     @BeforeEach
-    void setUp() {
-        mapper = new ObjectMapper();
+    @SuppressWarnings("unchecked")
+    void setUp() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
         typeFactory = new TypeFactoryImpl();
         typeFactory.registerResource("entry", TypedMockResource::new);
+
+        var untyped = mapper.readValue(TYPED_GROUP, Map.class);
+
+        resourceDefinition = ResourceDefinition.Builder.newInstance()
+                .singular("entry")
+                .plural("entries")
+                .build();
+        group = TypedGroup.Builder.newInstance()
+                .untyped(untyped)
+                .definition(GroupDefinition.Builder.newInstance()
+                        .singular("testgroup")
+                        .plural("testgroups")
+                        .resource(resourceDefinition)
+                        .build())
+                .typeFactory(typeFactory)
+                .build();
+
 
     }
 

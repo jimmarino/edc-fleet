@@ -17,10 +17,11 @@ package org.eclipse.edc.fleet.xregistry.model.typed;
 import org.eclipse.edc.fleet.xregistry.model.definition.RegistryDefinition;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyMap;
+import static java.util.stream.Collectors.toMap;
 import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.SELF;
 
 /**
@@ -29,42 +30,44 @@ import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants
 public class TypedRegistry extends AbstractType<RegistryDefinition> {
     private TypeFactory typeFactory;
 
-    private Map<String, Map<String, TypedGroup>> typedGroups = new HashMap<>();
-
-    @SuppressWarnings("unchecked")
     protected TypedRegistry(Map<String, Object> untyped, RegistryDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
         this.typeFactory = typeFactory;
         this.definition = definition;
-        this.definition.getGroups().forEach((name, groupDefinition) -> {
-            var groupContainerName = groupDefinition.getPlural();
-            var groupsMap = (Map<String, Map<String, Object>>) untyped.get(groupContainerName);
-            groupsMap.forEach((groupName, group) -> {
-                var typedGroup = TypedGroup.Builder.newInstance()
-                        .untyped(group)
-                        .definition(groupDefinition)
-                        .typeFactory(typeFactory)
-                        .build();
-
-                typedGroups.put(name, Map.of(groupName, typedGroup));
-            });
-        });
     }
 
     @SuppressWarnings("unchecked")
     public <T extends TypedGroup> Map<String, T> getGroups(String name) {
-        return (Map<String, T>) typedGroups.getOrDefault(name, emptyMap());
+        return (Map<String, T>) getTypedGroups().getOrDefault(name, emptyMap());
     }
 
     public URL getUrl() {
         return getUrl(SELF); // registry level self attributes are URLs
     }
 
-    public Builder asBuilder() {
+    public Builder toBuilder() {
         return Builder.newInstance()
                 .untyped(untyped)
                 .definition(definition)
                 .typeFactory(typeFactory);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Map<String, TypedGroup>> getTypedGroups() {
+        return this.definition.getGroups().values().stream().map(groupDefinition -> {
+            var groupContainerName = groupDefinition.getPlural();
+            var groupsMap = (Map<String, Map<String, Object>>) untyped.get(groupContainerName);
+            var typedGroupsMap = groupsMap.values().stream()
+                    .map(group -> TypedGroup.Builder.newInstance()
+                            .untyped(group)
+                            .definition(groupDefinition)
+                            .typeFactory(typeFactory)
+                            .build()).collect(toMap(TypedGroup::getId, group -> group));
+            return new GroupHolder(groupContainerName, typedGroupsMap);
+        }).collect(Collectors.toMap(h -> h.name, h -> h.groups));
+    }
+
+    private record GroupHolder(String name, Map<String, TypedGroup> groups) {
     }
 
     public static class Builder extends AbstractType.Builder<RegistryDefinition, Builder> {

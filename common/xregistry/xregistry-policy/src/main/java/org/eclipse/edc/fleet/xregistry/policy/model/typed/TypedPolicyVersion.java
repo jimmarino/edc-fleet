@@ -46,7 +46,7 @@ public class TypedPolicyVersion extends TypedVersion {
         super(untyped, definition, typeFactory);
     }
 
-    public Builder asBuilder() {
+    public Builder toBuilder() {
         return Builder.newInstance()
                 .untyped(untyped)
                 .definition(definition)

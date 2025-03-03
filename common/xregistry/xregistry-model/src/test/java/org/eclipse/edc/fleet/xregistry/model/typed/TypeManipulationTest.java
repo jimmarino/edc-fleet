@@ -33,22 +33,10 @@ class TypeManipulationTest {
     private static final String ENTRY = "entry";
     private static final String ENTRIES = "entries";
 
-    private TypeFactoryImpl typeFactory;
-    private ObjectMapper mapper;
-
-    private RegistryDefinition registryDefinition;
+    private TypedRegistry registry;
 
     @Test
-    @SuppressWarnings("unchecked")
     void verify_readRegistry() throws JsonProcessingException {
-        var entry = mapper.readValue(TYPED_REGISTRY, Map.class);
-
-        var registry = TypedRegistry.Builder.newInstance()
-                .untyped(entry)
-                .definition(registryDefinition)
-                .typeFactory(typeFactory)
-                .build();
-
         Map<String, TypedGroup> testGroups = registry.getGroups(TESTGROUPS);
         assertThat(testGroups.size()).isEqualTo(1);
 
@@ -59,10 +47,30 @@ class TypeManipulationTest {
         assertThat(resource.getId()).isEqualTo("entry1");
     }
 
+    @Test
+    void verify_modify() {
+        Map<String, TypedGroup> testGroups = registry.getGroups(TESTGROUPS);
+        TypedGroup typedGroup = testGroups.get("test.group1");
+
+        var resource = typedGroup.getResourcesOfType(TypedMockResource.class).iterator().next();
+
+        var builder = resource.toBuilder();
+        assertThat(builder.removeVersion("1.0")).isTrue();
+        var modified = builder.build();
+
+        assertThat(modified.getVersions()).isEmpty();
+
+        // check root was updated
+        assertThat(registry.getGroups(TESTGROUPS).get("test.group1")
+                .getResourcesOfType(TypedMockResource.class).iterator().next().getVersions()).isEmpty();
+
+    }
+
     @BeforeEach
-    void setUp() {
-        mapper = new ObjectMapper();
-        typeFactory = new TypeFactoryImpl();
+    @SuppressWarnings("unchecked")
+    void setUp() throws JsonProcessingException {
+        var mapper = new ObjectMapper();
+        var typeFactory = new TypeFactoryImpl();
         typeFactory.registerResource(ENTRY, TypedMockResource::new);
 
         var groupDefinition = GroupDefinition.Builder.newInstance()
@@ -70,10 +78,17 @@ class TypeManipulationTest {
                 .plural(TESTGROUPS)
                 .resource(ResourceDefinition.Builder.newInstance().singular(ENTRY).plural(ENTRIES).build())
                 .build();
-        registryDefinition = RegistryDefinition.Builder.newInstance()
+        var registryDefinition = RegistryDefinition.Builder.newInstance()
                 .group(groupDefinition)
                 .build();
 
+        var entry = mapper.readValue(TYPED_REGISTRY, Map.class);
+
+        registry = TypedRegistry.Builder.newInstance()
+                .untyped(entry)
+                .definition(registryDefinition)
+                .typeFactory(typeFactory)
+                .build();
     }
 
 

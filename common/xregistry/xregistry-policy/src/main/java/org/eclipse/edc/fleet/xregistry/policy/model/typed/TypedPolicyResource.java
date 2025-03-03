@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class TypedPolicyResource extends TypedResource<TypedPolicyVersion> {
 
-    public Builder asBuilder() {
+    public Builder toBuilder() {
         return Builder.newInstance()
                 .untyped(untyped)
                 .definition(definition)

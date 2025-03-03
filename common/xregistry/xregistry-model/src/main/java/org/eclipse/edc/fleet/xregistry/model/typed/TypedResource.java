@@ -16,10 +16,11 @@ package org.eclipse.edc.fleet.xregistry.model.typed;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static java.util.Collections.emptyMap;
+import static java.util.stream.Collectors.toMap;
 import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.VERSIONS;
 
 /**
@@ -27,24 +28,26 @@ import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants
  */
 public abstract class TypedResource<V extends TypedVersion> extends AbstractType<ResourceDefinition> {
     protected ResourceDefinition definition;
-    protected Map<String, V> versions = new HashMap<>();
-
-    public Map<String, V> getVersions() {
-        return versions;
-    }
 
     @SuppressWarnings("unchecked")
-    protected TypedResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
-        super(untyped, definition, typeFactory);
-        this.definition = definition;
+    public Map<String, V> getVersions() {
         var untypedVersions = (Map<String, Map<String, Object>>) this.untyped.get(VERSIONS);
         if (untypedVersions != null) {
             Set<Map.Entry<String, Map<String, Object>>> entries = untypedVersions.entrySet();
-            entries.forEach(entry -> {
-                var typedVersion = createVersion(entry.getValue());
-                versions.put(entry.getKey(), typedVersion);
-            });
+            return entries.stream().map(entry -> {
+                return createVersion(entry.getValue());
+            }).collect(toMap(AbstractType::getId, v -> v));
         }
+        return emptyMap();
+    }
+
+    public ResourceDefinition getDefinition() {
+        return definition;
+    }
+
+    protected TypedResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
+        super(untyped, definition, typeFactory);
+        this.definition = definition;
     }
 
     protected abstract V createVersion(Map<String, Object> untypedVersion);

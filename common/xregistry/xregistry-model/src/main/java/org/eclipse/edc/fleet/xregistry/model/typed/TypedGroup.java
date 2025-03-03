@@ -19,51 +19,53 @@ import org.eclipse.edc.fleet.xregistry.model.definition.GroupDefinition;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
  * A typed view of an XRegistry group.
  */
 public class TypedGroup extends AbstractType<GroupDefinition> {
-    private Map<String, TypedResource<?>> typedResources = new HashMap<>();
 
     public Map<String, TypedResource<?>> getResources() {
-        return typedResources;
+        return getTypedResources().collect(toMap(AbstractType::getId, resource -> resource));
     }
 
     @SuppressWarnings("unchecked")
     public <T extends TypedResource<?>> T getResource(String name) {
-        return (T) typedResources.get(name);
+        return (T) getTypedResources()
+                .filter(resource -> resource.getId().equals(name))
+                .findFirst().orElseGet((() -> null));
     }
 
     @SuppressWarnings("unchecked")
     public <T extends TypedResource<?>> Collection<T> getResourcesOfType(Class<T> type) {
-        return (Collection<T>) typedResources.values().stream()
+        return (Collection<T>) getTypedResources()
                 .filter(typedResource -> typedResource.getClass().equals(type))
                 .toList();
     }
 
-    public Builder asBuilder() {
+    public Builder toBuilder() {
         return Builder.newInstance()
                 .untyped(untyped)
                 .definition(definition)
                 .typeFactory(typeFactory);
     }
 
-    @SuppressWarnings("unchecked")
     private TypedGroup(Map<String, Object> untyped, GroupDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
         this.definition = definition;
+    }
 
-        definition.getResources().values().forEach(resourceDefinition -> {
-            Map<String, Object> resources = (Map<String, Object>) untyped.get(resourceDefinition.getPlural());
-            if (resources == null) {
-                return;
-            }
-            resources.forEach((key, resource) -> {
-                var typedResource = typeFactory.instantiate((Map<String, Object>) resource, resourceDefinition);
-                typedResources.put(typedResource.getId(), typedResource);
-            });
-        });
+    @SuppressWarnings("unchecked")
+    private Stream<? extends TypedResource<?>> getTypedResources() {
+        return definition.getResources().values().stream().flatMap(resourceDefinition -> {
+            Map<String, Map<String, Object>> resources = (Map<String, Map<String, Object>>) untyped.get(resourceDefinition.getPlural());
+            return resources == null ? null : resources.values().stream()
+                    .map(resource -> typeFactory.instantiate(resource, resourceDefinition));
+        }).filter(Objects::nonNull);
     }
 
     public static class Builder extends AbstractType.Builder<GroupDefinition, Builder> {
@@ -72,14 +74,25 @@ public class TypedGroup extends AbstractType<GroupDefinition> {
             return new Builder();
         }
 
-        public Builder group(String name, TypedGroup group) {
+        @SuppressWarnings("unchecked")
+        public <T extends TypedResource<?>> Builder resource(T resource) {
             checkModifiableState();
-            throw new UnsupportedOperationException();
+            var resources = (Map<String, Object>) untyped.computeIfAbsent(resource.getDefinition().getPlural(), k -> new HashMap<>());
+            resources.put(resource.getId(), resource.getUntyped());
+            return this;
         }
 
-        public Builder deleteGroup(String name) {
+        @SuppressWarnings("unchecked")
+        public Builder deleteResource(String name) {
             checkModifiableState();
-            throw new UnsupportedOperationException();
+            definition.getResources().values().forEach(resourceDefinition -> {
+                Map<String, Object> resources = (Map<String, Object>) untyped.get(resourceDefinition.getPlural());
+                if (resources == null) {
+                    return;
+                }
+                resources.remove(name);
+            });
+            return this;
         }
 
         public TypedGroup build() {
