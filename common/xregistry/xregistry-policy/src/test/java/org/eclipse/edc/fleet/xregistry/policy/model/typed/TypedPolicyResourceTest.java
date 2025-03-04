@@ -28,23 +28,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.edc.fleet.xregistry.policy.model.fixture.TestSerializations.POLICY_RESOURCE;
 
 class TypedPolicyResourceTest {
-    private ObjectMapper mapper;
-    private TypeFactoryImpl typeFactory;
+    private TypedPolicyResource resource;
 
     @Test
-    @SuppressWarnings("unchecked")
-    void verify_typedGroup() throws JsonProcessingException {
-        var untyped = mapper.readValue(POLICY_RESOURCE, Map.class);
-
-        var resource = TypedPolicyResource.Builder.newInstance()
-                .untyped(untyped)
-                .definition(ResourceDefinition.Builder.newInstance()
-                        .singular("policy")
-                        .plural("policies")
-                        .build())
-                .typeFactory(typeFactory)
-                .build();
-
+    void verify_typedGroup() {
         assertThat(resource.getId()).isNotNull();
         assertThat(resource.getSelf()).isNotNull();
         assertThat(resource.getXid()).isNotNull();
@@ -56,10 +43,35 @@ class TypedPolicyResourceTest {
         assertThat(versions.iterator().next().isAccessPolicy()).isFalse();
     }
 
+    @Test
+    void verify_modify() {
+        var version = resource.getVersions().values().iterator().next();
+        version.toBuilder()
+               .controlPolicy(true)
+               .accessPolicy(true)
+               .policyDefinition("newpolicy")
+               .build();
+
+       assertThat(version.isControlPolicy()).isTrue();
+       assertThat(version.isAccessPolicy()).isTrue();
+       assertThat(version.getPolicyDefinition()).isEqualTo("newpolicy");
+    }
+
     @BeforeEach
-    void setUp() {
-        mapper = new ObjectMapper();
-        typeFactory = new TypeFactoryImpl();
+    @SuppressWarnings("unchecked")
+    void setUp() throws JsonProcessingException {
+       var mapper = new ObjectMapper();
+       var typeFactory = new TypeFactoryImpl();
+        var untyped = mapper.readValue(POLICY_RESOURCE, Map.class);
+
+        resource = TypedPolicyResource.Builder.newInstance()
+                .untyped(untyped)
+                .definition(ResourceDefinition.Builder.newInstance()
+                        .singular("policy")
+                        .plural("policies")
+                        .build())
+                .typeFactory(typeFactory)
+                .build();
     }
 
 }

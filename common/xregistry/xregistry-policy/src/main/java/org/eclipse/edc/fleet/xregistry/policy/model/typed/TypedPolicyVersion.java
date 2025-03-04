@@ -58,6 +58,24 @@ public class TypedPolicyVersion extends TypedVersion {
             return new Builder();
         }
 
+        public Builder policyDefinition(String policyDefinition) {
+            checkModifiableState();
+            untyped.put(POLICY_DEFINITION, policyDefinition);
+            return this;
+        }
+
+        public Builder controlPolicy(boolean value) {
+            checkModifiableState();
+            untyped.put(CONTROL_POLICY, value);
+            return this;
+        }
+
+        public Builder accessPolicy(boolean value) {
+            checkModifiableState();
+            untyped.put(ACCESS_POLICY, value);
+            return this;
+        }
+
         public TypedPolicyVersion build() {
             validate();
             return new TypedPolicyVersion(untyped, definition, typeFactory);
