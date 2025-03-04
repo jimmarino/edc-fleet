@@ -17,8 +17,8 @@ package org.eclipse.edc.fleet.xregistry.model.typed;
 import org.eclipse.edc.fleet.xregistry.model.definition.RegistryDefinition;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyMap;
 import static java.util.stream.Collectors.toMap;
@@ -64,7 +64,7 @@ public class TypedRegistry extends AbstractType<RegistryDefinition> {
                             .typeFactory(typeFactory)
                             .build()).collect(toMap(TypedGroup::getId, group -> group));
             return new GroupHolder(groupContainerName, typedGroupsMap);
-        }).collect(Collectors.toMap(h -> h.name, h -> h.groups));
+        }).collect(toMap(h -> h.name, h -> h.groups));
     }
 
     private record GroupHolder(String name, Map<String, TypedGroup> groups) {
@@ -76,14 +76,23 @@ public class TypedRegistry extends AbstractType<RegistryDefinition> {
             return new Builder();
         }
 
-        public Builder group(String name, TypedGroup typedGroup) {
+        @SuppressWarnings("unchecked")
+        public Builder group(TypedGroup typedGroup) {
             checkModifiableState();
-            throw new UnsupportedOperationException();
+            var groupContainer = (Map<String, Object>) untyped.computeIfAbsent(typedGroup.getDefinition().getPlural(), k -> new HashMap<>());
+            groupContainer.put(typedGroup.getId(), typedGroup.getUntyped());
+            return this;
         }
 
+        @SuppressWarnings("unchecked")
         public Builder removeGroup(String name) {
             checkModifiableState();
-            throw new UnsupportedOperationException();
+            this.definition.getGroups().values().forEach(groupDefinition -> {
+                var groupContainerName = groupDefinition.getPlural();
+                var groupsMap = (Map<String, Map<String, Object>>) untyped.get(groupContainerName);
+                groupsMap.remove(name);
+            });
+            return this;
         }
 
         public TypedRegistry build() {

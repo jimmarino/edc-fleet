@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants.ID;
 import static org.eclipse.edc.fleet.xregistry.model.typed.TestSerializations.TYPED_REGISTRY;
 
 class TypeManipulationTest {
@@ -34,6 +35,8 @@ class TypeManipulationTest {
     private static final String ENTRIES = "entries";
 
     private TypedRegistry registry;
+    private TypeFactoryImpl typeFactory;
+    private GroupDefinition groupDefinition;
 
     @Test
     void verify_readRegistry() throws JsonProcessingException {
@@ -48,7 +51,7 @@ class TypeManipulationTest {
     }
 
     @Test
-    void verify_modify() {
+    void verify_modifyResource() {
         Map<String, TypedGroup> testGroups = registry.getGroups(TESTGROUPS);
         TypedGroup typedGroup = testGroups.get("test.group1");
 
@@ -60,17 +63,34 @@ class TypeManipulationTest {
         // check root was updated
         assertThat(registry.getGroups(TESTGROUPS).get("test.group1")
                 .getResourcesOfType(TypedMockResource.class).iterator().next().getVersions()).isEmpty();
+    }
 
+    @Test
+    void verify_modifyGroup() {
+        registry.toBuilder().removeGroup("test.group1").build();
+
+        Map<String, TypedGroup> testGroups = registry.getGroups(TESTGROUPS);
+        assertThat(testGroups.containsKey("test.group1")).isFalse();
+
+        var newGroup = TypedGroup.Builder.newInstance()
+                .typeFactory(typeFactory)
+                .definition(groupDefinition)
+                .untyped(Map.of(groupDefinition.getSingular() + ID, "test.group2"))
+                .build();
+
+        registry.toBuilder().group(newGroup).build();
+
+        assertThat(registry.getGroups(TESTGROUPS).get("test.group2")).isNotNull();
     }
 
     @BeforeEach
     @SuppressWarnings("unchecked")
     void setUp() throws JsonProcessingException {
         var mapper = new ObjectMapper();
-        var typeFactory = new TypeFactoryImpl();
+        typeFactory = new TypeFactoryImpl();
         typeFactory.registerResource(ENTRY, TypedMockResource::new);
 
-        var groupDefinition = GroupDefinition.Builder.newInstance()
+        groupDefinition = GroupDefinition.Builder.newInstance()
                 .singular(TESTGROUP)
                 .plural(TESTGROUPS)
                 .resource(ResourceDefinition.Builder.newInstance().singular(ENTRY).plural(ENTRIES).build())

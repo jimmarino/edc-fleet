@@ -54,6 +54,10 @@ public abstract class AbstractType<D extends AbstractTypeDefinition> {
         this.typeFactory = requireNonNull(typeFactory, "typeFactory");
     }
 
+    public D getDefinition() {
+        return definition;
+    }
+
     public String getId() {
         return getString(definition.getSingular() + ID);
     }
