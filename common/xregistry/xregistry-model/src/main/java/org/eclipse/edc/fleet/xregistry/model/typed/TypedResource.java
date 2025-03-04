@@ -35,9 +35,8 @@ public abstract class TypedResource<V extends TypedVersion> extends AbstractType
         var untypedVersions = (Map<String, Map<String, Object>>) untyped.get(VERSIONS);
         if (untypedVersions != null) {
             Set<Map.Entry<String, Map<String, Object>>> entries = untypedVersions.entrySet();
-            return entries.stream().map(entry -> {
-                return createVersion(entry.getValue());
-            }).collect(toMap(AbstractType::getId, v -> v));
+            return entries.stream().map(entry -> createVersion(entry.getValue()))
+                    .collect(toMap(AbstractType::getId, v -> v));
         }
         return emptyMap();
     }
