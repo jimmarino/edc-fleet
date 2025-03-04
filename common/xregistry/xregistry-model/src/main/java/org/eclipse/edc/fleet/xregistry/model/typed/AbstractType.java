@@ -173,6 +173,48 @@ public abstract class AbstractType<D extends AbstractTypeDefinition> {
             return (B) this;
         }
 
+        @SuppressWarnings("unchecked")
+        public B id(String id) {
+            checkModifiableState();
+            this.untyped.put(definition.getSingular() + ID, id);
+            return (B) this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public B epoch(int epoch) {
+            checkModifiableState();
+            this.untyped.put(EPOCH, epoch);
+            return (B) this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public B createdAt(Instant timestamp) {
+            checkModifiableState();
+            this.untyped.put(CREATED_AT, timestamp.toString());
+            return (B) this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public B modifiedAt(Instant timestamp) {
+            checkModifiableState();
+            this.untyped.put(MODIFIED_AT, timestamp.toString());
+            return (B) this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public B self(String self) {
+            checkModifiableState();
+            this.untyped.put(SELF, self);
+            return (B) this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public B xid(String xid) {
+            checkModifiableState();
+            this.untyped.put(XID, xid);
+            return (B) this;
+        }
+
         protected void validate() {
             requireNonNull(untyped, "untyped");
             requireNonNull(definition, "definition");

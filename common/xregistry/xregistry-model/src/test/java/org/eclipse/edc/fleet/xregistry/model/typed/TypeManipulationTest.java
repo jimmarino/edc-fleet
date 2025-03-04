@@ -22,6 +22,7 @@ import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -81,6 +82,25 @@ class TypeManipulationTest {
         registry.toBuilder().group(newGroup).build();
 
         assertThat(registry.getGroups(TESTGROUPS).get("test.group2")).isNotNull();
+    }
+
+    @Test
+    void verify_modifyScalars() {
+        registry.toBuilder()
+                .id("newid")
+                .epoch(123)
+                .createdAt(Instant.ofEpochMilli(1))
+                .modifiedAt(Instant.ofEpochMilli(2))
+                .self("/newself")
+                .xid("/newxid")
+                .build();
+        assertThat(registry.getId()).isEqualTo("newid");
+        assertThat(registry.getEpoch()).isEqualTo(123);
+        assertThat(registry.getCreatedAt()).isEqualTo(Instant.ofEpochMilli(1));
+        assertThat(registry.getModifiedAt()).isEqualTo(Instant.ofEpochMilli(2));
+        assertThat(registry.getSelf()).isEqualTo("/newself");
+        assertThat(registry.getXid()).isEqualTo("/newxid");
+
     }
 
     @BeforeEach
