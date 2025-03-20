@@ -26,4 +26,9 @@ include(":common:xregistry:xregistry-model")
 include(":common:xregistry:xregistry-lib")
 include(":common:xregistry:xregistry-policy")
 include(":common:xregistry:xregistry-schema")
+
+include(":reconciler:reconciler-spi")
+include(":reconciler:reconciler-core")
+include(":reconciler:reconciler-policy")
+
 include(":registry:launcher")
