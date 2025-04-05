@@ -21,13 +21,13 @@ import java.util.List;
  */
 public interface ResourceReconcilerRegistry {
 
-   /**
-    * Registers a reconciler.
-    */
-   void registerReconciler(ResourceReconciler reconciler);
+    /**
+     * Registers a reconciler.
+     */
+    void registerReconciler(ResourceReconciler reconciler);
 
-   /**
-    * Returns a collection of {@link ResourceReconciler}s order by their dependencies.
-    */
-   List<ResourceReconciler> getReconcilers();
+    /**
+     * Returns a collection of {@link ResourceReconciler}s order by their dependencies.
+     */
+    List<ResourceReconciler> getReconcilers();
 }

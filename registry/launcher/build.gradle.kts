@@ -20,6 +20,7 @@ plugins {
 
 dependencies {
     runtimeOnly(libs.bundles.base.runtime)
+    runtimeOnly(project(":registry:xregistry-server"))
 }
 
 application {

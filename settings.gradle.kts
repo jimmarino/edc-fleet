@@ -31,4 +31,5 @@ include(":reconciler:reconciler-spi")
 include(":reconciler:reconciler-core")
 include(":reconciler:reconciler-policy")
 
+include(":registry:xregistry-server")
 include(":registry:launcher")
