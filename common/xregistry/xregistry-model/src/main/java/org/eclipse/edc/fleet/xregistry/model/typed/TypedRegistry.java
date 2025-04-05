@@ -57,6 +57,9 @@ public class TypedRegistry extends AbstractType<RegistryDefinition> {
         return this.definition.getGroups().values().stream().map(groupDefinition -> {
             var groupContainerName = groupDefinition.getPlural();
             var groupsMap = (Map<String, Map<String, Object>>) untyped.get(groupContainerName);
+            if (groupsMap == null) {
+                groupsMap = emptyMap();
+            }
             var typedGroupsMap = groupsMap.values().stream()
                     .map(group -> TypedGroup.Builder.newInstance()
                             .untyped(group)

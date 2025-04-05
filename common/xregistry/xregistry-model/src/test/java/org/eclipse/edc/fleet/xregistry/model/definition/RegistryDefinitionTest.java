@@ -2,13 +2,15 @@ package org.eclipse.edc.fleet.xregistry.model.definition;
 
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  *
  */
 class RegistryDefinitionTest {
 
     @Test
-    void verify()  {
+    void verify() {
         var group = GroupDefinition.Builder.newInstance()
                 .singular("schemagroup")
                 .plural("schemasgroup")
@@ -18,7 +20,6 @@ class RegistryDefinitionTest {
                 .group(group)
                 .build();
 
-        System.out.println();
-
+        assertThat(registry.getGroups()).containsKey("schemasgroup");
     }
 }

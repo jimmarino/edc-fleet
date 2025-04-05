@@ -127,6 +127,17 @@ public interface TestSerializations {
                    "createdat": "2024-12-19T06:00:00Z",
                    "modifiedat": "2024-12-19T06:00:00Z",
                    "entrydefinition": "{\\"@context\\":{\\"edc\\":\\"https://w3id.org/edc/v0.0.1/ns/\\"},\\"@type\\":\\"entryDefinition\\",\\"entry\\":{\\"@context\\":\\"http://www.w3.org/ns/odrl.jsonld\\",\\"@id\\":\\"8c2ff88a-74bf-41dd-9b35-9587a3b95adf\\",\\"duty\\":[{\\"target\\":\\"http://example.com/asset:12345\\",\\"action\\":\\"use\\",\\"constraint\\":{\\"leftOperand\\":\\"headquarter_location\\",\\"operator\\":\\"eq\\",\\"rightOperand\\":\\"EU\\"}}]}\\n}"
+                 },
+                 "0.2": {
+                   "entryid": "entry1",
+                   "versionid": "0.2",
+                   "self": "#/testgroups/test.group1/entries/entry1/versions/1.0",
+                   "xid": "/testgroups/test.group1/entries/entry1/versions/1.0",
+                   "epoch": 0,
+                   "isdefault": true,
+                   "createdat": "2023-12-19T06:00:00Z",
+                   "modifiedat": "2023-12-19T06:00:00Z",
+                   "entrydefinition": "{\\"@context\\":{\\"edc\\":\\"https://w3id.org/edc/v0.0.1/ns/\\"},\\"@type\\":\\"entryDefinition\\",\\"entry\\":{\\"@context\\":\\"http://www.w3.org/ns/odrl.jsonld\\",\\"@id\\":\\"8c2ff88a-74bf-41dd-9b35-9587a3b95adf\\",\\"duty\\":[{\\"target\\":\\"http://example.com/asset:12345\\",\\"action\\":\\"use\\",\\"constraint\\":{\\"leftOperand\\":\\"headquarter_location\\",\\"operator\\":\\"eq\\",\\"rightOperand\\":\\"EU\\"}}]}\\n}"
                  }
                }
             }

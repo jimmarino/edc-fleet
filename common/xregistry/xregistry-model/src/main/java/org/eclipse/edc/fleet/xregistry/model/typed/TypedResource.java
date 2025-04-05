@@ -19,6 +19,7 @@ import org.eclipse.edc.fleet.xregistry.model.definition.ResourceDefinition;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import static java.util.Collections.emptyMap;
 import static java.util.stream.Collectors.toMap;
@@ -39,6 +40,19 @@ public abstract class TypedResource<V extends TypedVersion> extends AbstractType
                     .collect(toMap(AbstractType::getId, v -> v));
         }
         return emptyMap();
+    }
+
+    @SuppressWarnings("unchecked")
+    public V getLatestVersion() {
+        var untypedVersions = (Map<String, Map<String, Object>>) untyped.get(VERSIONS);
+        if (untypedVersions != null) {
+            var sorted = new TreeMap<>(untypedVersions);
+            var version = sorted.lastEntry();
+            if (version != null) {
+                return createVersion(version.getValue());
+            }
+        }
+        return null;
     }
 
     public ResourceDefinition getDefinition() {

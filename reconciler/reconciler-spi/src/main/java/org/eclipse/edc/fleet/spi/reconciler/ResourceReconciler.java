@@ -14,18 +14,17 @@
 
 package org.eclipse.edc.fleet.spi.reconciler;
 
-import org.eclipse.edc.fleet.xregistry.model.typed.TypedResource;
+import org.eclipse.edc.fleet.xregistry.model.typed.TypedRegistry;
 import org.eclipse.edc.spi.result.ServiceResult;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
 
 /**
  * Reconciles fleet state for a resource.
  */
-public interface ResourceReconciler<T extends TypedResource<?>> {
+public interface ResourceReconciler {
 
     /**
      * Returns the resource type handled by this reconciler.
@@ -40,8 +39,9 @@ public interface ResourceReconciler<T extends TypedResource<?>> {
     }
 
     /**
-     * Performs the reconciliation operation.
+     * Performs a reconciliation operation. Reconciliation may be called multiple times per cycle, for example, when registry
+     * resources are paginated.
      */
-    ServiceResult<Void> reconcile(Stream<T> resources);
+    ServiceResult<Void> reconcile(TypedRegistry registry, ReconciliationContext context);
 
 }

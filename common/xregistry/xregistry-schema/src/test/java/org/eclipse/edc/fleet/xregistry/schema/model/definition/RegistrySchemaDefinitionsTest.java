@@ -36,10 +36,10 @@ class RegistrySchemaDefinitionsTest {
 
     @Test
     void verify_createAndValidate() throws JsonProcessingException {
-        var policy = mapper.readValue(SIMPLE_SCHEMA_RESOURCE, Map.class);
+        var registryResult = mapper.readValue(SIMPLE_SCHEMA_RESOURCE, Map.class);
 
         @SuppressWarnings("unchecked")
-        var result = validator.validate(policy, registry);
+        var result = validator.validate(registryResult, registry);
 
         assertThat(result.valid()).isTrue();
     }

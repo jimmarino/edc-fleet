@@ -14,16 +14,16 @@
 
 package org.eclipse.edc.fleet.reconciler.core.registry;
 
+import org.eclipse.edc.fleet.spi.reconciler.ReconciliationContext;
+import org.eclipse.edc.fleet.spi.reconciler.ResourceReconciler;
+import org.eclipse.edc.fleet.xregistry.model.typed.TypedRegistry;
+import org.eclipse.edc.spi.result.ServiceResult;
+import org.junit.jupiter.api.Test;
+
 import java.util.List;
-import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import org.eclipse.edc.fleet.spi.reconciler.ResourceReconciler;
-import org.eclipse.edc.fleet.xregistry.model.typed.TypedResource;
-import org.eclipse.edc.spi.result.ServiceResult;
-import org.junit.jupiter.api.Test;
 
 class ResourceReconcilerRegistryImplTest {
 
@@ -31,19 +31,17 @@ class ResourceReconcilerRegistryImplTest {
     void verify_sort() {
         var registry = new ResourceReconcilerRegistryImpl();
 
-        registry.registerRecociler(new MockReconciler("bar", emptyList()));
-        registry.registerRecociler(new MockReconciler("baz", List.of("foo")));
-        registry.registerRecociler(new MockReconciler("foo", List.of("bar")));
+        registry.registerReconciler(new MockReconciler("bar", emptyList()));
+        registry.registerReconciler(new MockReconciler("baz", List.of("foo")));
+        registry.registerReconciler(new MockReconciler("foo", List.of("bar")));
 
         var reconcilers = registry.getReconcilers();
         assertThat(reconcilers.get(0).resourceType()).isEqualTo("bar");
         assertThat(reconcilers.get(1).resourceType()).isEqualTo("foo");
         assertThat(reconcilers.get(2).resourceType()).isEqualTo("baz");
-
     }
 
-
-    private static class MockReconciler implements ResourceReconciler<TypedResource<?>> {
+    private static class MockReconciler implements ResourceReconciler {
         private String type;
         private final List<String> dependencies;
 
@@ -63,7 +61,7 @@ class ResourceReconcilerRegistryImplTest {
         }
 
         @Override
-        public ServiceResult<Void> reconcile(Stream<TypedResource<?>> reasources) {
+        public ServiceResult<Void> reconcile(TypedRegistry registry, ReconciliationContext context) {
             throw new UnsupportedOperationException();
         }
     }

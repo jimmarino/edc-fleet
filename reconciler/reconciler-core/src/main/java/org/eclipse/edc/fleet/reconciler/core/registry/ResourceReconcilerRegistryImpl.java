@@ -27,16 +27,16 @@ import java.util.Map;
  * Default implementation.
  */
 public class ResourceReconcilerRegistryImpl implements ResourceReconcilerRegistry {
-    private Map<String, ResourceReconciler<?>> reconcilers = new HashMap<>();
+    private Map<String, ResourceReconciler> reconcilers = new HashMap<>();
 
     @Override
-    public void registerRecociler(ResourceReconciler<?> reconciler) {
+    public void registerReconciler(ResourceReconciler reconciler) {
         reconcilers.put(reconciler.resourceType(), reconciler);
     }
 
     @Override
-    public List<ResourceReconciler<?>> getReconcilers() {
-        var sort = new TopologicalSort<ResourceReconciler<?>>();
+    public List<ResourceReconciler> getReconcilers() {
+        var sort = new TopologicalSort<ResourceReconciler>();
 
         reconcilers.values().forEach(reconciler -> reconciler.dependentResources()
                 .forEach(resourceType -> {

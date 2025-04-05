@@ -14,12 +14,18 @@
 
 package org.eclipse.edc.fleet.reconciler.policy;
 
-import static org.eclipse.edc.fleet.xregistry.policy.model.definition.RegistryPolicyDefinitions.createPolicyGroupDefinition;
-
+import org.eclipse.edc.connector.controlplane.policy.spi.store.PolicyDefinitionStore;
+import org.eclipse.edc.fleet.spi.reconciler.ResourceReconcilerRegistry;
 import org.eclipse.edc.fleet.xregistry.model.definition.RegistrySpecification;
+import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactory;
+import org.eclipse.edc.fleet.xregistry.policy.model.typed.TypedPolicyResource;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
+import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
+import org.eclipse.edc.transaction.spi.TransactionContext;
+
+import static org.eclipse.edc.fleet.xregistry.policy.model.definition.RegistryPolicyDefinitions.createPolicyGroupDefinition;
 
 /**
  * Loads XRegistry policy extensions.
@@ -27,7 +33,22 @@ import org.eclipse.edc.spi.system.ServiceExtensionContext;
 public class ReconcilerPolicyExtension implements ServiceExtension {
 
     @Inject
+    private PolicyDefinitionStore policyStore;
+
+    @Inject
     private RegistrySpecification specification;
+
+    @Inject
+    private ResourceReconcilerRegistry reconcilerRegistry;
+
+    @Inject
+    private TypeFactory typeFactory;
+
+    @Inject
+    private TransactionContext transactionContext;
+
+    @Inject
+    private Monitor monitor;
 
     @Override
     public String name() {
@@ -37,6 +58,8 @@ public class ReconcilerPolicyExtension implements ServiceExtension {
     @Override
     public void initialize(ServiceExtensionContext context) {
         specification.registerGroup(createPolicyGroupDefinition());
+        typeFactory.registerResource("policy", TypedPolicyResource::new);
+        reconcilerRegistry.registerReconciler(new PolicyResourceReconciler(policyStore, transactionContext, monitor));
     }
 
 

@@ -33,13 +33,24 @@ class TypedResourceTest {
     private TypeFactory typeFactory;
 
     @Test
-    void verify_typedRegistry() throws JsonProcessingException {
+    void verify_typedRegistry() {
         assertThat(resource.getId()).isNotNull();
         assertThat(resource.getSelf()).isNotNull();
         assertThat(resource.getXid()).isNotNull();
 
         Collection<TypedMockVersion> versions = resource.getVersions().values();
-        assertThat(versions.size()).isEqualTo(1);
+        assertThat(versions.size()).isEqualTo(2);
+        assertThat(versions.iterator().next().getEntryDefinition()).isNotNull();
+    }
+
+    @Test
+    void verify_typedRegistry_versionOrder() {
+        assertThat(resource.getId()).isNotNull();
+        assertThat(resource.getSelf()).isNotNull();
+        assertThat(resource.getXid()).isNotNull();
+
+        Collection<TypedMockVersion> versions = resource.getVersions().values();
+        assertThat(resource.getLatestVersion().get("versionid")).isEqualTo("1.0");
         assertThat(versions.iterator().next().getEntryDefinition()).isNotNull();
     }
 
@@ -47,7 +58,7 @@ class TypedResourceTest {
     void verify_modify() {
         resource.toBuilder().removeVersion("1.0").build();
 
-        assertThat(resource.getVersions()).isEmpty();
+        assertThat(resource.getVersions().size()).isEqualTo(1);
 
         var newVersion = TypedMockVersion.Builder.newInstance()
                 .typeFactory(typeFactory)
@@ -58,7 +69,7 @@ class TypedResourceTest {
                 .build();
 
         resource.toBuilder().version("2.o", newVersion).build();
-        assertThat(resource.getVersions().size()).isEqualTo(1);
+        assertThat(resource.getVersions().size()).isEqualTo(2);
     }
 
     @BeforeEach

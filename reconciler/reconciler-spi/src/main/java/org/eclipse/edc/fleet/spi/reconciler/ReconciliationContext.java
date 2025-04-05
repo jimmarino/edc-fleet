@@ -14,20 +14,21 @@
 
 package org.eclipse.edc.fleet.spi.reconciler;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Registers and manages {@link ResourceReconciler}s.
+ * Used to propagate reconciliation data
  */
-public interface ResourceReconcilerRegistry {
+public class ReconciliationContext {
+    private Map<Class<?>, Object> cache = new HashMap<>();
 
-   /**
-    * Registers a reconciler.
-    */
-   void registerReconciler(ResourceReconciler reconciler);
+    @SuppressWarnings("unchecked")
+    <T> T getData(Class<T> type) {
+        return (T) cache.get(type);
+    }
 
-   /**
-    * Returns a collection of {@link ResourceReconciler}s order by their dependencies.
-    */
-   List<ResourceReconciler> getReconcilers();
+    <T> void setData(Class<T> type, T data) {
+        cache.put(type, data);
+    }
 }

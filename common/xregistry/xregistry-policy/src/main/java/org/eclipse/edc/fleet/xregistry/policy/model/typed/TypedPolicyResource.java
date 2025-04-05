@@ -32,7 +32,7 @@ public class TypedPolicyResource extends TypedResource<TypedPolicyVersion> {
                 .typeFactory(typeFactory);
     }
 
-    private TypedPolicyResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
+    public TypedPolicyResource(Map<String, Object> untyped, ResourceDefinition definition, TypeFactory typeFactory) {
         super(untyped, definition, typeFactory);
     }
 

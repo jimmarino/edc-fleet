@@ -21,5 +21,6 @@ dependencies {
     implementation(project(":common:xregistry:xregistry-lib"))
     implementation(project(":reconciler:reconciler-spi"))
     implementation(libs.edc.boot)
+    implementation(libs.edc.spi.http)
     testImplementation(libs.edc.junit)
 }

@@ -22,5 +22,7 @@ dependencies {
     implementation(project(":reconciler:reconciler-spi"))
     implementation(project(":common:xregistry:xregistry-policy"))
     implementation(libs.edc.boot)
+    implementation(libs.edc.spi.policy)
+    implementation(libs.edc.spi.transaction)
     testImplementation(libs.edc.junit)
 }
