@@ -12,20 +12,10 @@
  *
  */
 
-package org.eclipse.edc.fleet.xregistry.policy.model;
+package org.eclipse.edc.fleet.registry.server.api;
 
 /**
- * Policy keywords.
+ * Xregistry server API.
  */
-public interface PolicyConstants {
-
-    String POLICY_DEFINITION = "policydefinition";
-
-    String CONTROL_POLICY = "controlpolicy";
-
-    String ACCESS_POLICY = "accesspolicy";
-
-    String GROUP_NAME = "policygroup";
-
-    String GROUPS_NAME = "policygroups";
+public interface XregistryApi {
 }

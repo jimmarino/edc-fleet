@@ -20,7 +20,8 @@ plugins {
 
 dependencies {
     runtimeOnly(libs.bundles.base.runtime)
-    runtimeOnly(project(":registry:xregistry-server"))
+    runtimeOnly(project(":registry:registry-server"))
+    runtimeOnly(project(":registry:registry-policy-memory"))
 }
 
 application {

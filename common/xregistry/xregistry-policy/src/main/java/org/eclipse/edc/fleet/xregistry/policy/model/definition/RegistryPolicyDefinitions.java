@@ -25,6 +25,8 @@ import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.STRING;
 import static org.eclipse.edc.fleet.xregistry.model.definition.ValueType.XID;
 import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.ACCESS_POLICY;
 import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.CONTROL_POLICY;
+import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.GROUPS_NAME;
+import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.GROUP_NAME;
 import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.POLICY_DEFINITION;
 
 /**
@@ -34,8 +36,8 @@ public class RegistryPolicyDefinitions {
 
     public static GroupDefinition createPolicyGroupDefinition() {
         return GroupDefinition.Builder.newInstance()
-                .singular("policygroup")
-                .plural("policygroups")
+                .singular(GROUP_NAME)
+                .plural(GROUPS_NAME)
                 .resource(createPolicyResourceDefinition())
                 .build();
     }

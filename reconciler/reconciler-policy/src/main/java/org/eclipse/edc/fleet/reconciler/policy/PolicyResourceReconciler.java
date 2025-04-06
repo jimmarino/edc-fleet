@@ -23,13 +23,13 @@ import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.result.ServiceResult;
 import org.eclipse.edc.transaction.spi.TransactionContext;
 
+import static org.eclipse.edc.fleet.xregistry.policy.model.PolicyConstants.GROUPS_NAME;
 import static org.eclipse.edc.spi.result.ServiceResult.success;
 
 /**
  * Reconciles policy objects.
  */
 public class PolicyResourceReconciler implements ResourceReconciler {
-    private static final String POLICY_GROUPS = "policygroups";
     private PolicyDefinitionStore policyStore;
     private TransactionContext transactionContext;
 
@@ -50,7 +50,7 @@ public class PolicyResourceReconciler implements ResourceReconciler {
 
     @Override
     public ServiceResult<Void> reconcile(TypedRegistry registry, ReconciliationContext context) {
-        var groups = registry.getGroups(POLICY_GROUPS);
+        var groups = registry.getGroups(GROUPS_NAME);
         transactionContext.execute(() -> {
             groups.values().forEach(group -> group.getResourcesOfType(TypedPolicyResource.class)
                     .forEach(this::processResource));
