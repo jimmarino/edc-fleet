@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import rg.eclipse.edc.fleet.registry.server.spi.resource.ResourceTypeStore;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.eclipse.edc.fleet.xregistry.policy.model.definition.RegistryPolicyDefinitions.createPolicyGroupDefinition;
@@ -56,13 +56,13 @@ public class InMemoryPolicyResourceTypeStore implements ResourceTypeStore<TypedP
     public @NotNull Collection<TypedGroup> fetchGroups(int offset, int maxResults) {
         return lockManager.readLock(() -> {
             var policyResource = TypedPolicyResource.Builder.newInstance()
-                    .untyped(new HashMap<>())
+                    .untyped(new LinkedHashMap<>())
                     .typeFactory(typeFactory)
                     .definition(resourceDefinition)
                     .id("policy1")
                     .build();
             var typedGroup = TypedGroup.Builder.newInstance()
-                    .untyped(new HashMap<>())
+                    .untyped(new LinkedHashMap<>())
                     .typeFactory(typeFactory)
                     .definition(createPolicyGroupDefinition())
                     .resource(policyResource)

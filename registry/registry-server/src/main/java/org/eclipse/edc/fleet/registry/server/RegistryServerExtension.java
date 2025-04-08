@@ -16,8 +16,12 @@ package org.eclipse.edc.fleet.registry.server;
 
 import org.eclipse.edc.fleet.registry.server.api.XregistryApiController;
 import org.eclipse.edc.fleet.registry.server.defaults.DefaultRegistryStore;
+import org.eclipse.edc.fleet.xregistry.model.definition.RegistrySpecification;
+import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactory;
+import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactoryImpl;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.runtime.metamodel.annotation.Provider;
+import org.eclipse.edc.runtime.metamodel.annotation.Setting;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
 import org.eclipse.edc.web.spi.WebService;
@@ -29,11 +33,16 @@ import rg.eclipse.edc.fleet.registry.server.spi.store.RegistryStore;
 public class RegistryServerExtension implements ServiceExtension {
     private static final String API_CONTEXT = "default";
 
+    @Setting(description = "Fleet registry URL", key = "edc.fleet.registry.url", required = false)
+    private String registryUrl = "https://localhost:8181/xregistry";
+
     @Inject
     private WebService webService;
 
     @Inject
     private RegistryStore registryStore;
+
+    private RegistrySpecification specification;
 
     @Override
     public String name() {
@@ -47,8 +56,20 @@ public class RegistryServerExtension implements ServiceExtension {
 
     @Provider(isDefault = true)
     public RegistryStore defaultRegistryStore() {
-        return new DefaultRegistryStore();
+        return new DefaultRegistryStore(getSpecification());
     }
 
+    @Provider
+    public TypeFactory typeFactory() {
+        return new TypeFactoryImpl();
+    }
+
+    @Provider
+    public RegistrySpecification getSpecification() {
+        if (specification == null) {
+            specification = new RegistrySpecification(registryUrl);
+        }
+        return specification;
+    }
 
 }

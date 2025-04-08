@@ -12,4 +12,4 @@
 #
 #
 
-org.eclipse.edc.fleet.registry.policy.memory.RegistryPolicyMemoryExtension
+org.eclipse.edc.fleet.registry.policy.RegistryPolicyExtension

@@ -12,32 +12,36 @@
  *
  */
 
-package org.eclipse.edc.fleet.registry.policy.memory;
+package org.eclipse.edc.fleet.registry.policy;
 
+import org.eclipse.edc.fleet.xregistry.model.definition.RegistrySpecification;
+import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactory;
+import org.eclipse.edc.fleet.xregistry.policy.model.typed.TypedPolicyResource;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.eclipse.edc.util.concurrency.LockManager;
-import rg.eclipse.edc.fleet.registry.server.spi.store.RegistryStore;
 
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import static org.eclipse.edc.fleet.xregistry.policy.model.definition.RegistryPolicyDefinitions.createPolicyGroupDefinition;
 
 /**
- * Contributes an in-memory implementation of the policy resource store.
+ * Contributes base policy extensions.
  */
 public class RegistryPolicyExtension implements ServiceExtension {
 
     @Inject
-    private RegistryStore registryStore;
+    private RegistrySpecification specification;
+
+    @Inject
+    private TypeFactory typeFactory;
 
     @Override
     public String name() {
-        return "In-Memory Policy Registry";
+        return "Policy Registry";
     }
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        var store = new InMemoryPolicyResourceTypeStore(new LockManager(new ReentrantReadWriteLock()));
-        registryStore.register(store);
+        specification.registerGroup(createPolicyGroupDefinition());
+        typeFactory.registerResource("policy", TypedPolicyResource::new);
     }
 }

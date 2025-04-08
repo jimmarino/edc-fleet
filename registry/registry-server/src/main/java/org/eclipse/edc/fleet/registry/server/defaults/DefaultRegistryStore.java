@@ -15,6 +15,7 @@
 package org.eclipse.edc.fleet.registry.server.defaults;
 
 import org.eclipse.edc.fleet.xregistry.model.definition.RegistryDefinition;
+import org.eclipse.edc.fleet.xregistry.model.definition.RegistrySpecification;
 import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactory;
 import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactoryImpl;
 import org.eclipse.edc.fleet.xregistry.model.typed.TypedRegistry;
@@ -24,20 +25,32 @@ import org.jetbrains.annotations.NotNull;
 import rg.eclipse.edc.fleet.registry.server.spi.resource.ResourceTypeStore;
 import rg.eclipse.edc.fleet.registry.server.spi.store.RegistryStore;
 
+import java.time.Instant;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Default implementation.
  */
 public class DefaultRegistryStore implements RegistryStore {
-    private final TypeFactory typeFactory;
+    private static final String DEFAULT_REGISTRY_NAME = "edc-registry";
+    private static final String REGISTRY_XID = "/registry";
+    private final RegistrySpecification specification;
+
+    private TypeFactory typeFactory;
     private RegistryDefinition registryDefinition;
+
+    private Instant created;
+
     private Map<Class<?>, ResourceTypeStore<?>> cache = new HashMap<>();
 
-    public DefaultRegistryStore() {
+    public DefaultRegistryStore(RegistrySpecification specification) {
+        this.specification = specification;
         typeFactory = new TypeFactoryImpl();
         registryDefinition = RegistryDefinition.Builder.newInstance().build();
+        created = Instant.now();
     }
 
     @Override
@@ -49,12 +62,23 @@ public class DefaultRegistryStore implements RegistryStore {
     public @NotNull Map<String, Object> fetch(int offset, int maxResults) {
         var registry = TypedRegistry.Builder.newInstance()
                 .definition(registryDefinition)
-                .untyped(new HashMap<>())
+                .untyped(new LinkedHashMap<>())
                 .typeFactory(typeFactory);
 
+        configureRegistry(registry);
+
+        var groupCounts = new HashMap<String, AtomicInteger>();
+        var groupUrls = new HashMap<String, String>();
         cache.values().stream()
                 .flatMap(store -> store.fetchGroups(offset, maxResults).stream())
-                .forEach(registry::group);
+                .forEach(typedGroup -> {
+                    var plural = typedGroup.getDefinition().getPlural();
+                    groupCounts.computeIfAbsent(plural + "count", k -> new AtomicInteger()).incrementAndGet();
+                    groupUrls.put(plural + "url", "#/" + plural);
+                    registry.group(typedGroup);
+                });
+        groupCounts.forEach((key, count) -> registry.set(key, count.intValue()));
+        groupUrls.forEach(registry::set);
         return registry.build().asMap();
     }
 
@@ -71,5 +95,16 @@ public class DefaultRegistryStore implements RegistryStore {
     @Override
     public ServiceResult<Void> deleteResource(String id) {
         throw new UnsupportedOperationException();
+    }
+
+    private void configureRegistry(TypedRegistry.Builder registry) {
+        registry.id(DEFAULT_REGISTRY_NAME)
+                .self(specification.getUrl())
+                .url(specification.getUrl())
+                .epoch(1)  // TODO FIXME
+                .createdAt(created)
+                .modifiedAt(created)
+                .xid(REGISTRY_XID)
+        ;
     }
 }

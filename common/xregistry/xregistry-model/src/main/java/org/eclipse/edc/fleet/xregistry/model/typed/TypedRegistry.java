@@ -14,6 +14,7 @@
 
 package org.eclipse.edc.fleet.xregistry.model.typed;
 
+import org.eclipse.edc.fleet.xregistry.model.definition.RegistryConstants;
 import org.eclipse.edc.fleet.xregistry.model.definition.RegistryDefinition;
 
 import java.net.URL;
@@ -80,10 +81,18 @@ public class TypedRegistry extends AbstractType<RegistryDefinition> {
         }
 
         @SuppressWarnings("unchecked")
+        public Builder url(String url) {
+            checkModifiableState();
+            untyped.put(RegistryConstants.URL, url);
+            return this;
+        }
+
+        @SuppressWarnings("unchecked")
         public Builder group(TypedGroup typedGroup) {
             checkModifiableState();
             var groupContainer = (Map<String, Object>) untyped.computeIfAbsent(typedGroup.getDefinition().getPlural(), k -> new HashMap<>());
             groupContainer.put(typedGroup.getId(), typedGroup.getUntyped());
+            recalculateGroups();
             return this;
         }
 
@@ -94,8 +103,27 @@ public class TypedRegistry extends AbstractType<RegistryDefinition> {
                 var groupContainerName = groupDefinition.getPlural();
                 var groupsMap = (Map<String, Map<String, Object>>) untyped.get(groupContainerName);
                 groupsMap.remove(name);
+                if (groupsMap.isEmpty()) {
+                    untyped.remove(groupContainerName);
+                }
+                recalculateGroups();
             });
             return this;
+        }
+
+        @SuppressWarnings("unchecked")
+        private void recalculateGroups() {
+            this.definition.getGroups().values().forEach(groupDefinition -> {
+                var groupContainerName = groupDefinition.getPlural();
+                var groupsMap = (Map<String, Map<String, Object>>) untyped.get(groupContainerName);
+                if (groupsMap == null || groupsMap.isEmpty()) {
+                    untyped.remove(groupContainerName + "url");
+                    untyped.remove(groupContainerName + "count");
+                } else {
+                    untyped.put(groupContainerName + "url", "#/" + groupContainerName);
+                    untyped.put(groupContainerName + "count", groupsMap.size());
+                }
+            });
         }
 
         public TypedRegistry build() {

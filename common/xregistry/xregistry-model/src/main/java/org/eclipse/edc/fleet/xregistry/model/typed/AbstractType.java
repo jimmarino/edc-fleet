@@ -215,6 +215,13 @@ public abstract class AbstractType<D extends AbstractTypeDefinition> {
             return (B) this;
         }
 
+        @SuppressWarnings("unchecked")
+        public B set(String key, Object value) {
+            checkModifiableState();
+            this.untyped.put(key, value);
+            return (B) this;
+        }
+
         protected void validate() {
             requireNonNull(untyped, "untyped");
             requireNonNull(definition, "definition");
