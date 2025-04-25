@@ -12,7 +12,7 @@
  *
  */
 
-package org.eclipse.edc.fleet.reconciler.policy;
+package org.eclipse.edc.registry.reconciler.policy;
 
 /**
  * Test definitions.

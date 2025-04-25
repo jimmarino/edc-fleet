@@ -12,4 +12,4 @@
 #
 #
 
-org.eclipse.edc.fleet.registry.server.RegistryServerExtension
+org.eclipse.edc.registry.server.RegistryServerExtension

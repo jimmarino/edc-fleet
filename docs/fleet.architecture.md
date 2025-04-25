@@ -6,7 +6,7 @@ of the [Dataspace Protocol Specification (DSP)](https://github.com/eclipse-datas
 while `Connector` is used to refer to a generic implementation that may or may not be based on EDC.
 
 ## Problem Statement
-
+                            
 Organizations may control multiple Connector deployments. For example, individual divisions may run their own EDC
 instances
 using [Management Domains](https://eclipse-edc.github.io/documentation/for-adopters/distributions-deployment-operations/#management-domains).

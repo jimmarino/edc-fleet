@@ -1,10 +1,9 @@
-# EDC Fleet Coordination 
+# EDC Registry
 
-This repository contains components implementing Fleet Coordination:
+This repository contains components implementing an EDC Registry:
 
-- A registry server and tooling based on [xRegsitry](https://xregistry.io/)                                                .
+- A registry server and tooling based on [xRegsitry](https://xregistry.io/).
 - A reconciler for synchronizing EDC management domains with resource states specified in an hierarchy of registry servers. 
-- An eventing system based on [CloudEvents](https://cloudevents.io/)
 
 **This repository is currently experimental**
   

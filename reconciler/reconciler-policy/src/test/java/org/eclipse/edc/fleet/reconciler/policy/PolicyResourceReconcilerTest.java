@@ -12,16 +12,16 @@
  *
  */
 
-package org.eclipse.edc.fleet.reconciler.policy;
+package org.eclipse.edc.registry.reconciler.policy;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.edc.connector.controlplane.policy.spi.store.PolicyDefinitionStore;
-import org.eclipse.edc.fleet.spi.reconciler.ReconciliationContext;
-import org.eclipse.edc.fleet.xregistry.model.definition.RegistrySpecification;
-import org.eclipse.edc.fleet.xregistry.model.typed.TypeFactoryImpl;
-import org.eclipse.edc.fleet.xregistry.model.typed.TypedRegistry;
-import org.eclipse.edc.fleet.xregistry.policy.model.typed.TypedPolicyResource;
+import org.eclipse.edc.registry.spi.reconciler.ReconciliationContext;
+import org.eclipse.edc.registry.xregistry.model.definition.RegistrySpecification;
+import org.eclipse.edc.registry.xregistry.model.typed.TypeFactoryImpl;
+import org.eclipse.edc.registry.xregistry.model.typed.TypedRegistry;
+import org.eclipse.edc.registry.xregistry.policy.model.typed.TypedPolicyResource;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.transaction.spi.TransactionContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +29,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.eclipse.edc.fleet.reconciler.policy.Definitions.POLICY_REGISTRY;
-import static org.eclipse.edc.fleet.xregistry.policy.model.definition.RegistryPolicyDefinitions.createPolicyGroupDefinition;
+import static org.eclipse.edc.registry.reconciler.policy.Definitions.POLICY_REGISTRY;
+import static org.eclipse.edc.registry.xregistry.policy.model.definition.RegistryPolicyDefinitions.createPolicyGroupDefinition;
 import static org.mockito.Mockito.mock;
 
 class PolicyResourceReconcilerTest {
